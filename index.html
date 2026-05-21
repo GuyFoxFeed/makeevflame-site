@@ -34,7 +34,7 @@ body{
   object-fit:cover;
 }
 
-/* NAV (ПОД БАННЕРОМ) */
+/* NAV */
 .nav{
   width:100%;
   background:#131313;
@@ -49,7 +49,7 @@ body{
   text-decoration:none;
 }
 
-/* CONTENT GRID */
+/* GRID */
 .content{
   display:grid;
   grid-template-columns:1.1fr 0.9fr;
@@ -122,6 +122,7 @@ body{
   background:#131313;
   color:white;
   padding:10px;
+  border-radius:10px;
 }
 
 .product img{
@@ -130,15 +131,20 @@ body{
   object-fit:cover;
 }
 
-/* BUTTON */
-button{
+.product button{
   padding:10px;
+  margin-top:10px;
   border:none;
   background:white;
   cursor:pointer;
+  transition:0.15s;
 }
 
-/* FOOTER (ЮРИДИЧКА) */
+.product button:active{
+  transform:scale(0.95);
+}
+
+/* FOOTER */
 .footer{
   background:#131313;
   color:white;
@@ -156,7 +162,7 @@ button{
   opacity:0.8;
 }
 
-/* CART */
+/* CART MODAL */
 .cart-modal{
   position:fixed;
   inset:0;
@@ -188,11 +194,50 @@ button{
   margin-bottom:8px;
 }
 
-.remove{
+.cart-item button{
   background:red;
   color:white;
   border:none;
   cursor:pointer;
+}
+
+/* FLOAT CART BUTTON */
+.cart-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:#131313;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  z-index:1000;
+  transition:0.2s;
+}
+
+.cart-float:hover{
+  transform:scale(1.08);
+}
+
+#cartBubble{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:red;
+  color:white;
+  width:20px;
+  height:20px;
+  font-size:12px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 /* MOBILE */
@@ -224,7 +269,7 @@ button{
 <nav class="nav">
   <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
+  <a href="#" id="cartBtn">Корзина</a>
 </nav>
 
 <!-- CONTENT -->
@@ -241,12 +286,6 @@ button{
       <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true')"></div>
 
     </div>
-  </div>
-
-  <div class="dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
   </div>
 
 </div>
@@ -298,7 +337,7 @@ button{
   </div>
 </footer>
 
-<!-- CART -->
+<!-- CART MODAL -->
 <div id="cartModal" class="cart-modal">
   <div class="cart-content">
     <h2>Корзина</h2>
@@ -307,9 +346,15 @@ button{
   </div>
 </div>
 
+<!-- FLOAT CART -->
+<div id="cartFloat" class="cart-float">
+  🛒
+  <span id="cartBubble">0</span>
+</div>
+
 <script>
 
-/* ===== CAROUSEL FIX ===== */
+/* CAROUSEL */
 const track = document.getElementById("track");
 const dots = document.querySelectorAll(".dot");
 
@@ -317,17 +362,9 @@ let index = 0;
 
 function updateCarousel(){
   track.style.transform = `translateX(-${index * 100}%)`;
-
   dots.forEach(d => d.classList.remove("active"));
   if(dots[index]) dots[index].classList.add("active");
 }
-
-dots.forEach((dot,i)=>{
-  dot.addEventListener("click",()=>{
-    index = i;
-    updateCarousel();
-  });
-});
 
 setInterval(()=>{
   index++;
@@ -335,9 +372,7 @@ setInterval(()=>{
   updateCarousel();
 },4000);
 
-updateCarousel();
-
-/* ===== CART ===== */
+/* CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function save(){
@@ -351,7 +386,7 @@ function addToCart(name, price){
   let item = cart.find(i => i.name === name);
 
   if(item){
-    item.qty += 1;
+    item.qty++;
   } else {
     cart.push({name, price, qty:1});
   }
@@ -360,16 +395,17 @@ function addToCart(name, price){
   updateCart();
 }
 
-function removeItem(index){
-  cart.splice(index,1);
+function removeItem(i){
+  cart.splice(i,1);
   save();
   updateCart();
 }
 
 function updateCart(){
 
-  document.getElementById("cartCount").innerText =
-    cart.reduce((a,b)=>a + b.qty,0);
+  let totalQty = cart.reduce((a,b)=>a+b.qty,0);
+
+  document.getElementById("cartBubble").innerText = totalQty;
 
   let html = "";
 
@@ -378,7 +414,7 @@ function updateCart(){
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
         <span>${i.price * i.qty} ₽</span>
-        <button class="remove" onclick="removeItem(${idx})">×</button>
+        <button onclick="removeItem(${idx})">×</button>
       </div>
     `;
   });
@@ -387,6 +423,10 @@ function updateCart(){
 }
 
 /* OPEN CART */
+document.getElementById("cartFloat").addEventListener("click",()=>{
+  document.getElementById("cartModal").style.display="flex";
+});
+
 document.getElementById("cartBtn").addEventListener("click",(e)=>{
   e.preventDefault();
   document.getElementById("cartModal").style.display="flex";
