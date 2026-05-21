@@ -69,14 +69,14 @@ object-fit:cover;
 /* CONTENT */
 
 .content{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:40px;
-  align-items:start;
+
+padding:40px 20px;
+
+display:grid;
+grid-template-columns:1fr;
+gap:24px;
 }
-.shop{
-  grid-column: 1 / -1;
-}
+
 /* BLOCK */
 
 .block{
@@ -166,70 +166,7 @@ height:700px;
 
 }
 
-.shop{
-  padding:60px 20px;
-  background:#e8e8ec;
-}
-
-.shop-title{
-  text-align:center;
-  font-size:28px;
-  margin-bottom:30px;
-  color:#131313;
-}
-
-.shop-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:20px;
-}
-
-.product{
-  background:#131313;
-  color:white;
-  padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.product img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-}
-
-.product h3{
-  font-size:16px;
-}
-
-.product p{
-  font-size:13px;
-  opacity:0.7;
-}
-
-.product span{
-  font-weight:bold;
-}
-
-.product button{
-  margin-top:10px;
-  padding:10px;
-  border:none;
-  background:white;
-  color:black;
-  cursor:pointer;
-}
-
-/* MOBILE */
-@media (max-width:768px){
-  .shop-grid{
-    grid-template-columns:1fr;
-  }
-}
-
 </style>
-
 
 </head>
 
@@ -287,11 +224,6 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 
 </div>
 
-
-  </div>
-
-</section>
-
 </div>
 
 <!-- INFO -->
@@ -316,37 +248,6 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 </p>
 
 </div>
-  <section class="shop" id="shop">
-
-  <h2 class="shop-title">Магазин</h2>
-
-  <div class="shop-grid">
-
-    <div class="product">
-      <img src="https://via.placeholder.com/400x400" alt="Свеча 1">
-      <h3>Vanilla Smoke</h3>
-      <p>Тёплая ваниль с древесными нотами</p>
-      <span>1 290 ₽</span>
-      <button>Купить</button>
-    </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/400x400" alt="Свеча 2">
-      <h3>Dark Amber</h3>
-      <p>Глубокий амбровый аромат</p>
-      <span>1 490 ₽</span>
-      <button>Купить</button>
-    </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/400x400" alt="Свеча 3">
-      <h3>Soft Linen</h3>
-      <p>Свежесть чистого белья</p>
-      <span>1 190 ₽</span>
-      <button>Купить</button>
-    </div>
-
-  </div>
 
 </section>
 
