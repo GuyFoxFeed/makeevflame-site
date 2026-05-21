@@ -53,7 +53,7 @@ body{
   object-fit:cover;
 }
 
-/* CONTENT GRID */
+/* GRID */
 
 .content{
   display:grid;
@@ -63,19 +63,12 @@ body{
   padding:40px;
 }
 
-/* BLOCK */
-
 .block{
   background:#131313;
   padding:24px;
 }
 
 /* CAROUSEL */
-
-.carousel{
-  position:relative;
-  overflow:hidden;
-}
 
 .carousel-track{
   display:flex;
@@ -88,8 +81,6 @@ body{
   background-size:cover;
   background-position:center;
 }
-
-/* DOTS */
 
 .dots{
   display:flex;
@@ -108,7 +99,6 @@ body{
 
 .dot.active{
   background:white;
-  transform:scale(1.2);
 }
 
 /* SHOP */
@@ -175,36 +165,82 @@ body{
   opacity:0.8;
 }
 
-/* CART */
+/* ================= CART UI ================= */
 
 .cart-modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.55);
   display:none;
-  justify-content:center;
-  align-items:center;
+  justify-content:flex-end;
+  z-index:999;
 }
 
 .cart-content{
-  background:white;
-  color:black;
-  padding:20px;
-  width:320px;
-  border-radius:10px;
+  width:360px;
+  height:100%;
+  background:#111;
+  color:white;
+  padding:24px;
+  transform:translateX(100%);
+  animation:slideIn 0.35s ease forwards;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+@keyframes slideIn{
+  to{transform:translateX(0);}
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close-btn{
+  background:none;
+  border:none;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.cart-items{
+  flex:1;
+  overflow-y:auto;
 }
 
 .cart-item{
   display:flex;
   justify-content:space-between;
-  margin:10px 0;
+  padding:10px;
+  background:#1b1b1b;
+  border-radius:10px;
+  margin-bottom:8px;
+  animation:pop 0.2s ease;
 }
 
-.cart-item button{
-  background:red;
-  color:white;
+@keyframes pop{
+  from{transform:scale(0.95); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.cart-footer{
+  border-top:1px solid #333;
+  padding-top:10px;
+}
+
+.checkout-btn{
+  width:100%;
+  padding:12px;
   border:none;
+  background:white;
+  color:black;
   cursor:pointer;
+  font-weight:bold;
+  border-radius:8px;
 }
 
 /* MOBILE */
@@ -237,78 +273,73 @@ body{
 <!-- NAV -->
 <nav class="nav">
   <a href="#">Главная</a>
-  <a href="#about">О нас</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">
-    Корзина (<span id="cartCount">0</span>)
-  </a>
+  <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
 </nav>
 
 <!-- CONTENT -->
 <section class="content">
 
-<!-- CAROUSEL -->
-<div class="block">
+  <!-- CAROUSEL -->
+  <div class="block">
 
-  <div class="carousel">
-    <div class="carousel-track" id="track">
+    <div class="carousel">
+      <div class="carousel-track" id="track">
 
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true');"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true');"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true');"></div>
+        <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true');"></div>
+        <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true');"></div>
+        <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true');"></div>
 
-    </div>
-  </div>
-
-  <div class="dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-
-</div>
-
-<!-- ABOUT -->
-<div class="block">
-
-  <h2>О бренде</h2>
-  <p style="opacity:0.7; line-height:1.6;">
-    Макеев — это наша фамилия. Мы создаём свечи вручную, с акцентом на простоту, тепло и атмосферу.
-  </p>
-
-</div>
-
-<!-- SHOP -->
-<section class="shop" id="shop">
-
-  <h2 class="shop-title">Магазин</h2>
-
-  <div class="shop-grid">
-
-    <div class="product">
-      <img src="https://via.placeholder.com/400">
-      <h3>Свеча 1</h3>
-      <span>1290 ₽</span>
-      <button onclick="addToCart('Свеча 1',1290)">Купить</button>
+      </div>
     </div>
 
-    <div class="product">
-      <img src="https://via.placeholder.com/400">
-      <h3>Свеча 2</h3>
-      <span>1490 ₽</span>
-      <button onclick="addToCart('Свеча 2',1490)">Купить</button>
-    </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/400">
-      <h3>Свеча 3</h3>
-      <span>1590 ₽</span>
-      <button onclick="addToCart('Свеча 3',1590)">Купить</button>
+    <div class="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
     </div>
 
   </div>
 
-</section>
+  <!-- ABOUT -->
+  <div class="block">
+    <h2>О бренде</h2>
+    <p style="opacity:0.7; line-height:1.6;">
+      Макеев — это ручные свечи, сделанные с вниманием к деталям и атмосфере.
+    </p>
+  </div>
+
+  <!-- SHOP -->
+  <section class="shop" id="shop">
+
+    <h2 class="shop-title">Магазин</h2>
+
+    <div class="shop-grid">
+
+      <div class="product">
+        <img src="https://via.placeholder.com/400">
+        <h3>Свеча 1</h3>
+        <span>1290 ₽</span>
+        <button onclick="addToCart('Свеча 1',1290)">Купить</button>
+      </div>
+
+      <div class="product">
+        <img src="https://via.placeholder.com/400">
+        <h3>Свеча 2</h3>
+        <span>1490 ₽</span>
+        <button onclick="addToCart('Свеча 2',1490)">Купить</button>
+      </div>
+
+      <div class="product">
+        <img src="https://via.placeholder.com/400">
+        <h3>Свеча 3</h3>
+        <span>1590 ₽</span>
+        <button onclick="addToCart('Свеча 3',1590)">Купить</button>
+      </div>
+
+    </div>
+
+  </section>
 
 </section>
 
@@ -326,15 +357,26 @@ body{
 <div id="cartModal" class="cart-modal">
 
   <div class="cart-content">
-    <h2>Корзина</h2>
-    <div id="cartItems"></div>
-    <p id="cartTotal">Итого: 0 ₽</p>
-    <button onclick="closeCart()">Закрыть</button>
+
+    <div class="cart-header">
+      <h2>Корзина</h2>
+      <button class="close-btn" onclick="closeCart()">✕</button>
+    </div>
+
+    <div id="cartItems" class="cart-items"></div>
+
+    <div class="cart-footer">
+      <p id="cartTotal">Итого: 0 ₽</p>
+      <button class="checkout-btn">Оформить заказ</button>
+    </div>
+
   </div>
 
 </div>
 
 <script>
+
+/* CAROUSEL */
 
 const track = document.getElementById('track');
 const dots = document.querySelectorAll('.dot');
@@ -343,7 +385,7 @@ let index = 0;
 
 function updateCarousel(){
   track.style.transform = `translateX(-${index * 100}%)`;
-  dots.forEach(d=>d.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
   dots[index].classList.add('active');
 }
 
