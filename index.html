@@ -18,6 +18,7 @@ body{
   background:#e8e8ec;
   font-family:Arial, sans-serif;
   color:#e8e8ec;
+  overflow-x:hidden;
 }
 
 /* HERO */
@@ -33,7 +34,7 @@ body{
   object-fit:cover;
 }
 
-/* NAV (ТЕПЕРЬ ПОД БАННЕРОМ) */
+/* NAV (ПОД БАННЕРОМ) */
 .nav{
   width:100%;
   background:#131313;
@@ -46,9 +47,10 @@ body{
 .nav a{
   color:white;
   text-decoration:none;
+  font-size:14px;
 }
 
-/* CONTENT GRID */
+/* GRID */
 .content{
   display:grid;
   grid-template-columns:1.1fr 0.9fr;
@@ -62,6 +64,10 @@ body{
 }
 
 /* CAROUSEL */
+.carousel{
+  overflow:hidden;
+}
+
 .carousel-track{
   display:flex;
   transition:0.5s;
@@ -89,15 +95,19 @@ body{
 
 .shop-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:20px;
+  max-width:1100px;
+  margin:0 auto;
 }
 
-/* PRODUCT */
 .product{
   background:#131313;
   color:white;
-  padding:10px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border-radius:10px;
 }
 
 .product img{
@@ -106,26 +116,29 @@ body{
   object-fit:cover;
 }
 
-/* BUTTON */
-button{
+.product h3{
+  padding:10px;
+}
+
+.product button{
+  margin:10px;
   padding:10px;
   border:none;
   background:white;
   cursor:pointer;
 }
 
-/* FOOTER (ЮРИДИЧКА ВЕРНУЛАСЬ) */
+/* FOOTER */
 .footer{
   background:#131313;
   color:white;
   padding:30px;
-  text-align:center;
-  margin-top:40px;
 }
 
 .footer-content{
   max-width:900px;
-  margin:0 auto;
+  margin:0;
+  text-align:left;
   display:flex;
   flex-direction:column;
   gap:6px;
@@ -160,15 +173,17 @@ button{
 .cart-item{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:10px;
   background:#1b1b1b;
   margin-bottom:8px;
 }
 
-.remove{
+.cart-item button{
   background:red;
   color:white;
   border:none;
+  padding:4px 8px;
   cursor:pointer;
 }
 
@@ -215,18 +230,21 @@ button{
   <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
 </section>
 
-<!-- NAV (ТЕПЕРЬ ПОД БАННЕРОМ) -->
+<!-- NAV (ПОД БАННЕРОМ) -->
 <nav class="nav">
   <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">Корзина</a>
+  <a href="#" id="cartBtn">
+    Корзина (<span id="cartCount">0</span>)
+  </a>
 </nav>
 
 <!-- CONTENT -->
 <section class="content">
 
-<!-- CAROUSEL (ВОЗВРАЩЕНА) -->
+<!-- CAROUSEL -->
 <div class="block">
+
   <div class="carousel">
     <div class="carousel-track" id="track">
 
@@ -236,6 +254,7 @@ button{
 
     </div>
   </div>
+
 </div>
 
 <!-- ABOUT -->
@@ -275,7 +294,7 @@ button{
 
 </section>
 
-<!-- FOOTER (ВОЗВРАЩЕН) -->
+<!-- FOOTER -->
 <footer class="footer">
 
 <div class="footer-content">
@@ -306,14 +325,18 @@ button{
 
 <script>
 
-/* CART */
+/* CART LOGIC */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function save(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
 function addToCart(name, price){
 
   price = Number(price);
 
-  let item = cart.find(i=>i.name===name);
+  let item = cart.find(i => i.name === name);
 
   if(item){
     item.qty++;
@@ -321,51 +344,56 @@ function addToCart(name, price){
     cart.push({name, price, qty:1});
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  save();
+  updateCart();
+  showToast("Добавлено в корзину");
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  save();
   updateCart();
 }
 
-/* UPDATE */
 function updateCart(){
 
   document.getElementById("cartCount").innerText =
-    cart.reduce((a,b)=>a+b.qty,0);
+    cart.reduce((a,b)=>a + b.qty,0);
 
-  let html="";
-  let total=0;
+  let html = "";
 
   cart.forEach((i,idx)=>{
-    total += i.price*i.qty;
-
-    html+=`
+    html += `
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
-        <span>${i.price*i.qty} ₽</span>
-        <button class="remove" onclick="removeItem(${idx})">×</button>
+        <span>${i.price * i.qty} ₽</span>
+        <button onclick="removeItem(${idx})">×</button>
       </div>
     `;
   });
 
-  document.getElementById("cartItems").innerHTML=html;
-}
-
-/* REMOVE */
-function removeItem(i){
-  cart.splice(i,1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCart();
+  document.getElementById("cartItems").innerHTML = html;
 }
 
 /* CART OPEN */
-document.getElementById("cartBtn").onclick=(e)=>{
+document.getElementById("cartBtn").addEventListener("click",(e)=>{
   e.preventDefault();
   document.getElementById("cartModal").style.display="flex";
-};
+});
 
 function closeCart(){
   document.getElementById("cartModal").style.display="none";
 }
 
+/* TOAST */
+function showToast(text){
+  const t = document.getElementById("toast");
+  t.innerText = text;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),1500);
+}
+
+/* INIT */
 updateCart();
 
 </script>
