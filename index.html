@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MAKEEV</title>
 
 <style>
@@ -22,7 +20,7 @@ body{
   overflow-x:hidden;
 }
 
-/* NAV (НЕ ТРОГАЕМ) */
+/* NAV */
 .nav{
   width:100%;
   background:#131313;
@@ -37,7 +35,7 @@ body{
   text-decoration:none;
 }
 
-/* HERO (НЕ ТРОГАЕМ) */
+/* HERO */
 .hero{
   width:100%;
   height:50vh;
@@ -50,7 +48,7 @@ body{
   object-fit:cover;
 }
 
-/* GRID (НЕ ТРОГАЕМ) */
+/* GRID */
 .content{
   display:grid;
   grid-template-columns:1.1fr 0.9fr;
@@ -63,11 +61,7 @@ body{
   padding:24px;
 }
 
-/* CAROUSEL (НЕ ТРОГАЕМ) */
-.carousel{
-  overflow:hidden;
-}
-
+/* CAROUSEL */
 .carousel-track{
   display:flex;
   transition:0.5s;
@@ -78,25 +72,6 @@ body{
   height:500px;
   background-size:cover;
   background-position:center;
-}
-
-/* DOTS */
-.dots{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:10px;
-}
-
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#555;
-}
-
-.dot.active{
-  background:white;
 }
 
 /* SHOP */
@@ -114,20 +89,14 @@ body{
 
 .shop-grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:20px;
-  max-width:1100px;
-  margin:0 auto;
 }
 
-/* ✅ ИСПРАВЛЕННЫЕ КАРТОЧКИ */
 .product{
   background:#131313;
   color:white;
-  border-radius:10px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
+  padding:10px;
 }
 
 .product img{
@@ -136,24 +105,12 @@ body{
   object-fit:cover;
 }
 
-.product h3{
-  padding:10px 12px 0;
-}
-
-.product button{
-  margin:12px;
+/* BUTTON */
+button{
   padding:10px;
   border:none;
   background:white;
   cursor:pointer;
-}
-
-/* FOOTER */
-.footer{
-  background:#131313;
-  color:white;
-  padding:30px;
-  text-align:center;
 }
 
 /* CART */
@@ -167,25 +124,35 @@ body{
 }
 
 .cart-content{
-  width:360px;
+  width:380px;
   height:100%;
   background:#111;
-  padding:24px;
+  padding:20px;
   display:flex;
   flex-direction:column;
 }
 
 .cart-items{
   flex:1;
-  overflow-y:auto;
+  overflow:auto;
 }
 
 .cart-item{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:10px;
   background:#1b1b1b;
   margin-bottom:8px;
+}
+
+/* DELETE BUTTON */
+.remove{
+  background:red;
+  color:white;
+  border:none;
+  padding:5px 8px;
+  cursor:pointer;
 }
 
 /* TOAST */
@@ -204,38 +171,21 @@ body{
 
 .toast.show{
   opacity:1;
-  transform:translateX(-50%) translateY(-5px);
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  .content{
-    grid-template-columns:1fr;
-  }
-
-  .shop-grid{
-    grid-template-columns:1fr;
-  }
-
-  .slide{
-    height:350px;
-  }
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- NAV (НЕ ТРОГАЕМ) -->
+<!-- NAV -->
 <nav class="nav">
   <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
   <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
 </nav>
 
-<!-- HERO (НЕ ТРОГАЕМ) -->
+<!-- HERO -->
 <section class="hero">
   <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
 </section>
@@ -243,29 +193,27 @@ body{
 <!-- CONTENT -->
 <section class="content">
 
-<!-- CAROUSEL (НЕ ТРОГАЕМ) -->
+<!-- CAROUSEL -->
 <div class="block">
-
   <div class="carousel">
     <div class="carousel-track" id="track">
 
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true');"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true');"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true');"></div>
+      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true')"></div>
+      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true')"></div>
+      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true')"></div>
 
     </div>
   </div>
-
 </div>
 
 <!-- ABOUT -->
 <div class="block">
   <h2>О бренде</h2>
-  <p>Свечи ручной работы.</p>
+  <p>Свечи ручной работы</p>
 </div>
 
 <!-- SHOP -->
-<section class="shop" id="shop">
+<section class="shop">
 
 <h2 class="shop-title">Магазин</h2>
 
@@ -295,54 +243,59 @@ body{
 
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
-© 2026 MAKEEV
-</footer>
-
 <!-- CART -->
 <div id="cartModal" class="cart-modal">
 
-  <div class="cart-content">
+<div class="cart-content">
 
-    <h2>Корзина</h2>
+  <h2>Корзина</h2>
 
-    <div id="cartItems" class="cart-items"></div>
+  <div id="cartItems" class="cart-items"></div>
 
-    <p id="cartTotal"></p>
+  <p id="cartTotal"></p>
 
-    <button onclick="closeCart()">Закрыть</button>
-
-  </div>
+  <button onclick="closeCart()">Закрыть</button>
 
 </div>
 
-<!-- TOAST -->
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
 
-/* CART FIXED */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+function save(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* ADD + SUMMING */
 function addToCart(name, price){
 
-  price = Number(price); // FIX NaN
+  price = Number(price);
 
   let item = cart.find(i => i.name === name);
 
   if(item){
-    item.qty++;
+    item.qty += 1;
   } else {
     cart.push({name, price, qty:1});
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  save();
   updateCart();
-  showToast("Добавлено");
+  showToast("Добавлено в корзину");
 }
 
-/* UPDATE */
+/* REMOVE ITEM */
+function removeItem(index){
+  cart.splice(index,1);
+  save();
+  updateCart();
+}
+
+/* UPDATE CART */
 function updateCart(){
 
   document.getElementById("cartCount").innerText =
@@ -351,13 +304,14 @@ function updateCart(){
   let html = "";
   let total = 0;
 
-  cart.forEach(i=>{
+  cart.forEach((i,idx)=>{
     total += i.price * i.qty;
 
     html += `
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
         <span>${i.price * i.qty} ₽</span>
+        <button class="remove" onclick="removeItem(${idx})">×</button>
       </div>
     `;
   });
@@ -366,7 +320,7 @@ function updateCart(){
   document.getElementById("cartTotal").innerText = "Итого: " + total + " ₽";
 }
 
-/* CART OPEN FIX */
+/* CART OPEN */
 const cartModal = document.getElementById("cartModal");
 
 document.getElementById("cartBtn").addEventListener("click",(e)=>{
@@ -378,7 +332,7 @@ function closeCart(){
   cartModal.style.display = "none";
 }
 
-/* CLOSE OUTSIDE */
+/* OUTSIDE CLOSE */
 cartModal.addEventListener("click",(e)=>{
   if(e.target === cartModal) closeCart();
 });
