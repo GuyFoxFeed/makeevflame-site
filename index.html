@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MAKEEV свечи ручной работы</title>
+<title>MAKEEV</title>
 
 <style>
 
+/* RESET */
 *{
   margin:0;
   padding:0;
@@ -17,20 +16,19 @@
 
 body{
   background:#e8e8ec;
-  font-family:Helvetica, Arial, sans-serif;
+  font-family:Arial, sans-serif;
   color:#e8e8ec;
   overflow-x:hidden;
 }
 
 /* NAV */
-
 .nav{
   width:100%;
   background:#131313;
   display:flex;
   justify-content:center;
   gap:20px;
-  padding:16px 10px;
+  padding:16px;
 }
 
 .nav a{
@@ -40,7 +38,6 @@ body{
 }
 
 /* HERO */
-
 .hero{
   width:100%;
   height:50vh;
@@ -54,12 +51,10 @@ body{
 }
 
 /* GRID */
-
 .content{
   display:grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns:1.1fr 0.9fr;
   gap:40px;
-  align-items:start;
   padding:40px;
 }
 
@@ -68,17 +63,14 @@ body{
   padding:24px;
 }
 
-/* ================= CAROUSEL FIX ================= */
-
+/* CAROUSEL */
 .carousel{
-  position:relative;
+  overflow:hidden;
   width:100%;
-  overflow:hidden; /* 🔥 ВАЖНО */
 }
 
 .carousel-track{
   display:flex;
-  width:100%;
   transition:transform 0.5s ease;
 }
 
@@ -90,12 +82,11 @@ body{
 }
 
 /* DOTS */
-
 .dots{
   display:flex;
   justify-content:center;
   gap:10px;
-  margin-top:16px;
+  margin-top:12px;
 }
 
 .dot{
@@ -111,11 +102,9 @@ body{
 }
 
 /* SHOP */
-
 .shop{
   grid-column:1 / -1;
   padding:60px 20px;
-  background:#e8e8ec;
 }
 
 .shop-title{
@@ -142,57 +131,57 @@ body{
   gap:10px;
 }
 
-.product img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-}
-
-.product button{
+/* Shopify feel buttons */
+button{
   padding:10px;
   border:none;
   background:white;
   cursor:pointer;
+  transition:transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(0,0,0,0.2);
+}
+
+button:active{
+  transform:scale(0.96);
+  opacity:0.85;
 }
 
 /* FOOTER */
-
 .footer{
-  width:100%;
   background:#131313;
   color:white;
-  padding:30px 20px;
+  padding:30px;
+  text-align:center;
 }
 
-.footer-content{
-  max-width:900px;
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  font-size:13px;
-  opacity:0.8;
-}
-
-/* ================= CART ================= */
+/* ================= CART (SHOPIFY STYLE) ================= */
 
 .cart-modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.55);
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(4px);
   display:none;
   justify-content:flex-end;
   z-index:999;
 }
 
+.cart-modal.active{
+  display:flex;
+}
+
 .cart-content{
-  width:360px;
+  width:380px;
   height:100%;
   background:#111;
-  color:white;
   padding:24px;
+  color:white;
   transform:translateX(100%);
-  animation:slideIn 0.3s forwards;
+  animation:slideIn 0.35s ease forwards;
   display:flex;
   flex-direction:column;
 }
@@ -209,10 +198,8 @@ body{
 
 .close-btn{
   background:none;
-  border:none;
   color:white;
   font-size:20px;
-  cursor:pointer;
 }
 
 .cart-items{
@@ -226,8 +213,8 @@ body{
   justify-content:space-between;
   padding:10px;
   background:#1b1b1b;
-  border-radius:10px;
   margin-bottom:8px;
+  border-radius:8px;
 }
 
 .cart-footer{
@@ -238,14 +225,32 @@ body{
 .checkout-btn{
   width:100%;
   padding:12px;
-  border:none;
   background:white;
   color:black;
-  cursor:pointer;
-  font-weight:bold;
 }
 
-@media (max-width:768px){
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  opacity:0;
+  transition:0.3s;
+  pointer-events:none;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(-5px);
+}
+
+/* MOBILE */
+@media(max-width:768px){
   .content{
     grid-template-columns:1fr;
   }
@@ -260,7 +265,6 @@ body{
 }
 
 </style>
-
 </head>
 
 <body>
@@ -280,75 +284,62 @@ body{
 <!-- CONTENT -->
 <section class="content">
 
-  <!-- CAROUSEL -->
-  <div class="block">
+<!-- CAROUSEL -->
+<div class="block">
+  <div class="carousel">
+    <div class="carousel-track" id="track">
 
-    <div class="carousel">
-      <div class="carousel-track" id="track">
+      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true');"></div>
+      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true');"></div>
+      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true');"></div>
 
-        <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true');"></div>
-        <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true');"></div>
-        <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true');"></div>
+    </div>
+  </div>
 
-      </div>
+  <div class="dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="block">
+  <h2>О бренде</h2>
+  <p>Минималистичные свечи ручной работы.</p>
+</div>
+
+<!-- SHOP -->
+<section class="shop" id="shop">
+
+  <h2 class="shop-title">Магазин</h2>
+
+  <div class="shop-grid">
+
+    <div class="product">
+      <h3>Свеча 1</h3>
+      <button onclick="addToCart('Свеча 1',1290)">Купить</button>
     </div>
 
-    <div class="dots">
-      <div class="dot active"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
+    <div class="product">
+      <h3>Свеча 2</h3>
+      <button onclick="addToCart('Свеча 2',1490)">Купить</button>
+    </div>
+
+    <div class="product">
+      <h3>Свеча 3</h3>
+      <button onclick="addToCart('Свеча 3',1590)">Купить</button>
     </div>
 
   </div>
 
-  <!-- ABOUT -->
-  <div class="block">
-    <h2>О бренде</h2>
-    <p style="opacity:0.7; line-height:1.6;">
-      Ручные свечи с атмосферой уюта и минимализма.
-    </p>
-  </div>
-
-  <!-- SHOP -->
-  <section class="shop" id="shop">
-
-    <h2 class="shop-title">Магазин</h2>
-
-    <div class="shop-grid">
-
-      <div class="product">
-        <img src="https://via.placeholder.com/400">
-        <h3>Свеча 1</h3>
-        <span>1290 ₽</span>
-        <button onclick="addToCart('Свеча 1',1290)">Купить</button>
-      </div>
-
-      <div class="product">
-        <img src="https://via.placeholder.com/400">
-        <h3>Свеча 2</h3>
-        <span>1490 ₽</span>
-        <button onclick="addToCart('Свеча 2',1490)">Купить</button>
-      </div>
-
-      <div class="product">
-        <img src="https://via.placeholder.com/400">
-        <h3>Свеча 3</h3>
-        <span>1590 ₽</span>
-        <button onclick="addToCart('Свеча 3',1590)">Купить</button>
-      </div>
-
-    </div>
-
-  </section>
+</section>
 
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-content">
-    <p>© 2026 MAKEEV</p>
-    <p>ИНН / данные</p>
-  </div>
+  © 2026 MAKEEV
 </footer>
 
 <!-- CART -->
@@ -364,91 +355,114 @@ body{
     <div id="cartItems" class="cart-items"></div>
 
     <div class="cart-footer">
-      <p id="cartTotal">Итого: 0 ₽</p>
-      <button class="checkout-btn">Оформить заказ</button>
+      <p id="cartTotal"></p>
+      <button class="checkout-btn">Оформить</button>
     </div>
 
   </div>
 
 </div>
 
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
 <script>
 
+/* CAROUSEL */
 const track = document.getElementById('track');
 const dots = document.querySelectorAll('.dot');
-
 let index = 0;
 
 function updateCarousel(){
   track.style.transform = `translateX(-${index * 100}%)`;
-  dots.forEach(d => d.classList.remove('active'));
+  dots.forEach(d=>d.classList.remove('active'));
   dots[index].classList.add('active');
 }
 
 dots.forEach((d,i)=>{
   d.addEventListener('click',()=>{
-    index = i;
+    index=i;
     updateCarousel();
   });
 });
 
 setInterval(()=>{
   index++;
-  if(index > 2) index = 0;
+  if(index>2) index=0;
   updateCarousel();
 },4000);
 
 /* CART */
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function saveCart(){
+function save(){
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 function addToCart(name, price){
-  cart.push({name, price});
-  saveCart();
-  updateCart();
-}
 
-function removeItem(i){
-  cart.splice(i,1);
-  saveCart();
+  let item = cart.find(i=>i.name===name);
+
+  if(item) item.qty++;
+  else cart.push({name,price,qty:1});
+
+  save();
   updateCart();
+  showToast("Добавлено 🕯️");
 }
 
 function updateCart(){
 
-  document.getElementById("cartCount").innerText = cart.length;
+  document.getElementById("cartCount").innerText =
+    cart.reduce((a,b)=>a+b.qty,0);
 
-  let items = document.getElementById("cartItems");
-  items.innerHTML = "";
+  let html="";
+  let total=0;
 
-  let total = 0;
+  cart.forEach((i,idx)=>{
+    total += i.price*i.qty;
 
-  cart.forEach((item,i)=>{
-    total += item.price;
-
-    items.innerHTML += `
+    html+=`
       <div class="cart-item">
-        <span>${item.name} - ${item.price} ₽</span>
-        <button onclick="removeItem(${i})">x</button>
+        <span>${i.name} × ${i.qty}</span>
+        <span>${i.price*i.qty} ₽</span>
       </div>
     `;
   });
 
-  document.getElementById("cartTotal").innerText =
-    "Итого: " + total + " ₽";
+  document.getElementById("cartItems").innerHTML=html;
+  document.getElementById("cartTotal").innerText="Итого: "+total+" ₽";
 }
 
-document.getElementById("cartBtn").addEventListener("click",(e)=>{
+function removeItem(i){
+  cart.splice(i,1);
+  save();
+  updateCart();
+}
+
+/* CART OPEN */
+const cartModal=document.getElementById("cartModal");
+
+document.getElementById("cartBtn").onclick=(e)=>{
   e.preventDefault();
-  document.getElementById("cartModal").style.display="flex";
-});
+  cartModal.classList.add("active");
+};
 
 function closeCart(){
-  document.getElementById("cartModal").style.display="none";
+  cartModal.classList.remove("active");
+}
+
+/* CLICK OUTSIDE */
+cartModal.addEventListener("click",(e)=>{
+  if(e.target===cartModal) closeCart();
+});
+
+/* TOAST */
+function showToast(text){
+  let t=document.getElementById("toast");
+  t.innerText=text;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),1500);
 }
 
 updateCart();
