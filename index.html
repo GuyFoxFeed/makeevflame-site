@@ -7,6 +7,7 @@
 
 <style>
 
+/* RESET */
 *{
   margin:0;
   padding:0;
@@ -17,22 +18,6 @@ body{
   background:#e8e8ec;
   font-family:Arial, sans-serif;
   color:#e8e8ec;
-  overflow-x:hidden;
-}
-
-/* NAV */
-.nav{
-  width:100%;
-  background:#131313;
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  padding:16px;
-}
-
-.nav a{
-  color:white;
-  text-decoration:none;
 }
 
 /* HERO */
@@ -48,7 +33,22 @@ body{
   object-fit:cover;
 }
 
-/* GRID */
+/* NAV (ТЕПЕРЬ ПОД БАННЕРОМ) */
+.nav{
+  width:100%;
+  background:#131313;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:16px;
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+}
+
+/* CONTENT GRID */
 .content{
   display:grid;
   grid-template-columns:1.1fr 0.9fr;
@@ -93,6 +93,7 @@ body{
   gap:20px;
 }
 
+/* PRODUCT */
 .product{
   background:#131313;
   color:white;
@@ -111,6 +112,25 @@ button{
   border:none;
   background:white;
   cursor:pointer;
+}
+
+/* FOOTER (ЮРИДИЧКА ВЕРНУЛАСЬ) */
+.footer{
+  background:#131313;
+  color:white;
+  padding:30px;
+  text-align:center;
+  margin-top:40px;
+}
+
+.footer-content{
+  max-width:900px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-size:13px;
+  opacity:0.8;
 }
 
 /* CART */
@@ -140,18 +160,15 @@ button{
 .cart-item{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   padding:10px;
   background:#1b1b1b;
   margin-bottom:8px;
 }
 
-/* DELETE BUTTON */
 .remove{
   background:red;
   color:white;
   border:none;
-  padding:5px 8px;
   cursor:pointer;
 }
 
@@ -173,27 +190,42 @@ button{
   opacity:1;
 }
 
+/* MOBILE */
+@media(max-width:768px){
+  .content{
+    grid-template-columns:1fr;
+  }
+
+  .shop-grid{
+    grid-template-columns:1fr;
+  }
+
+  .slide{
+    height:350px;
+  }
+}
+
 </style>
 </head>
 
 <body>
-
-<!-- NAV -->
-<nav class="nav">
-  <a href="#">Главная</a>
-  <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
-</nav>
 
 <!-- HERO -->
 <section class="hero">
   <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
 </section>
 
+<!-- NAV (ТЕПЕРЬ ПОД БАННЕРОМ) -->
+<nav class="nav">
+  <a href="#">Главная</a>
+  <a href="#shop">Магазин</a>
+  <a href="#" id="cartBtn">Корзина</a>
+</nav>
+
 <!-- CONTENT -->
 <section class="content">
 
-<!-- CAROUSEL -->
+<!-- CAROUSEL (ВОЗВРАЩЕНА) -->
 <div class="block">
   <div class="carousel">
     <div class="carousel-track" id="track">
@@ -213,7 +245,7 @@ button{
 </div>
 
 <!-- SHOP -->
-<section class="shop">
+<section class="shop" id="shop">
 
 <h2 class="shop-title">Магазин</h2>
 
@@ -243,6 +275,18 @@ button{
 
 </section>
 
+<!-- FOOTER (ВОЗВРАЩЕН) -->
+<footer class="footer">
+
+<div class="footer-content">
+  <p>© 2026 MAKEEV. Все права защищены.</p>
+  <p>НПД: Макеева Екатерина Игоревна</p>
+  <p>ИНН: 631406784709</p>
+  <p>+7 917 159 74 55</p>
+</div>
+
+</footer>
+
 <!-- CART -->
 <div id="cartModal" class="cart-modal">
 
@@ -251,8 +295,6 @@ button{
   <h2>Корзина</h2>
 
   <div id="cartItems" class="cart-items"></div>
-
-  <p id="cartTotal"></p>
 
   <button onclick="closeCart()">Закрыть</button>
 
@@ -264,86 +306,64 @@ button{
 
 <script>
 
+/* CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function save(){
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-/* ADD + SUMMING */
 function addToCart(name, price){
 
   price = Number(price);
 
-  let item = cart.find(i => i.name === name);
+  let item = cart.find(i=>i.name===name);
 
   if(item){
-    item.qty += 1;
+    item.qty++;
   } else {
     cart.push({name, price, qty:1});
   }
 
-  save();
-  updateCart();
-  showToast("Добавлено в корзину");
-}
-
-/* REMOVE ITEM */
-function removeItem(index){
-  cart.splice(index,1);
-  save();
+  localStorage.setItem("cart", JSON.stringify(cart));
   updateCart();
 }
 
-/* UPDATE CART */
+/* UPDATE */
 function updateCart(){
 
   document.getElementById("cartCount").innerText =
-    cart.reduce((a,b)=>a + b.qty,0);
+    cart.reduce((a,b)=>a+b.qty,0);
 
-  let html = "";
-  let total = 0;
+  let html="";
+  let total=0;
 
   cart.forEach((i,idx)=>{
-    total += i.price * i.qty;
+    total += i.price*i.qty;
 
-    html += `
+    html+=`
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
-        <span>${i.price * i.qty} ₽</span>
+        <span>${i.price*i.qty} ₽</span>
         <button class="remove" onclick="removeItem(${idx})">×</button>
       </div>
     `;
   });
 
-  document.getElementById("cartItems").innerHTML = html;
-  document.getElementById("cartTotal").innerText = "Итого: " + total + " ₽";
+  document.getElementById("cartItems").innerHTML=html;
+}
+
+/* REMOVE */
+function removeItem(i){
+  cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
 }
 
 /* CART OPEN */
-const cartModal = document.getElementById("cartModal");
-
-document.getElementById("cartBtn").addEventListener("click",(e)=>{
+document.getElementById("cartBtn").onclick=(e)=>{
   e.preventDefault();
-  cartModal.style.display = "flex";
-});
+  document.getElementById("cartModal").style.display="flex";
+};
 
 function closeCart(){
-  cartModal.style.display = "none";
-}
-
-/* OUTSIDE CLOSE */
-cartModal.addEventListener("click",(e)=>{
-  if(e.target === cartModal) closeCart();
-});
-
-/* TOAST */
-function showToast(text){
-  let t = document.getElementById("toast");
-  t.innerText = text;
-  t.classList.add("show");
-
-  setTimeout(()=>t.classList.remove("show"),1500);
+  document.getElementById("cartModal").style.display="none";
 }
 
 updateCart();
