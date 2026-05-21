@@ -366,6 +366,44 @@ setInterval(()=>{
   updateCarousel();
 },4000);
 
+  let cart = [];
+
+function addToCart(name, price){
+  cart.push({name, price});
+  updateCart();
+}
+
+function updateCart(){
+
+  document.getElementById('cartCount').innerText = cart.length;
+
+  let items = document.getElementById('cartItems');
+  items.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((item, i)=>{
+    total += item.price;
+
+    items.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name}</span>
+        <span>${item.price} ₽</span>
+      </div>
+    `;
+  });
+
+  document.getElementById('cartTotal').innerText = "Итого: " + total + " ₽";
+}
+
+document.getElementById('cartBtn').addEventListener('click', ()=>{
+  document.getElementById('cartModal').style.display = "flex";
+});
+
+function closeCart(){
+  document.getElementById('cartModal').style.display = "none";
+}
+  
 </script>
   
   <div id="cartModal" class="cart-modal">
