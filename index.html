@@ -47,10 +47,9 @@ body{
 .nav a{
   color:white;
   text-decoration:none;
-  font-size:14px;
 }
 
-/* GRID */
+/* CONTENT GRID */
 .content{
   display:grid;
   grid-template-columns:1.1fr 0.9fr;
@@ -70,7 +69,7 @@ body{
 
 .carousel-track{
   display:flex;
-  transition:0.5s;
+  transition:transform 0.5s ease;
 }
 
 .slide{
@@ -78,6 +77,26 @@ body{
   height:500px;
   background-size:cover;
   background-position:center;
+}
+
+/* DOTS */
+.dots{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:12px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#555;
+  cursor:pointer;
+}
+
+.dot.active{
+  background:white;
 }
 
 /* SHOP */
@@ -97,17 +116,12 @@ body{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
   gap:20px;
-  max-width:1100px;
-  margin:0 auto;
 }
 
 .product{
   background:#131313;
   color:white;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  border-radius:10px;
+  padding:10px;
 }
 
 .product img{
@@ -116,19 +130,15 @@ body{
   object-fit:cover;
 }
 
-.product h3{
-  padding:10px;
-}
-
-.product button{
-  margin:10px;
+/* BUTTON */
+button{
   padding:10px;
   border:none;
   background:white;
   cursor:pointer;
 }
 
-/* FOOTER */
+/* FOOTER (ЮРИДИЧКА) */
 .footer{
   background:#131313;
   color:white;
@@ -173,36 +183,16 @@ body{
 .cart-item{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   padding:10px;
   background:#1b1b1b;
   margin-bottom:8px;
 }
 
-.cart-item button{
+.remove{
   background:red;
   color:white;
   border:none;
-  padding:4px 8px;
   cursor:pointer;
-}
-
-/* TOAST */
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111;
-  color:white;
-  padding:10px 16px;
-  border-radius:10px;
-  opacity:0;
-  transition:0.3s;
-}
-
-.toast.show{
-  opacity:1;
 }
 
 /* MOBILE */
@@ -230,13 +220,11 @@ body{
   <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
 </section>
 
-<!-- NAV (ПОД БАННЕРОМ) -->
+<!-- NAV -->
 <nav class="nav">
   <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">
-    Корзина (<span id="cartCount">0</span>)
-  </a>
+  <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
 </nav>
 
 <!-- CONTENT -->
@@ -253,6 +241,12 @@ body{
       <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true')"></div>
 
     </div>
+  </div>
+
+  <div class="dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
 
 </div>
@@ -296,36 +290,54 @@ body{
 
 <!-- FOOTER -->
 <footer class="footer">
-
-<div class="footer-content">
-  <p>© 2026 MAKEEV. Все права защищены.</p>
-  <p>НПД: Макеева Екатерина Игоревна</p>
-  <p>ИНН: 631406784709</p>
-  <p>+7 917 159 74 55</p>
-</div>
-
+  <div class="footer-content">
+    <p>© 2026 MAKEEV. Все права защищены.</p>
+    <p>НПД: Макеева Екатерина Игоревна</p>
+    <p>ИНН: 631406784709</p>
+    <p>+7 917 159 74 55</p>
+  </div>
 </footer>
 
 <!-- CART -->
 <div id="cartModal" class="cart-modal">
-
-<div class="cart-content">
-
-  <h2>Корзина</h2>
-
-  <div id="cartItems" class="cart-items"></div>
-
-  <button onclick="closeCart()">Закрыть</button>
-
+  <div class="cart-content">
+    <h2>Корзина</h2>
+    <div id="cartItems" class="cart-items"></div>
+    <button onclick="closeCart()">Закрыть</button>
+  </div>
 </div>
-
-</div>
-
-<div id="toast" class="toast"></div>
 
 <script>
 
-/* CART LOGIC */
+/* ===== CAROUSEL FIX ===== */
+const track = document.getElementById("track");
+const dots = document.querySelectorAll(".dot");
+
+let index = 0;
+
+function updateCarousel(){
+  track.style.transform = `translateX(-${index * 100}%)`;
+
+  dots.forEach(d => d.classList.remove("active"));
+  if(dots[index]) dots[index].classList.add("active");
+}
+
+dots.forEach((dot,i)=>{
+  dot.addEventListener("click",()=>{
+    index = i;
+    updateCarousel();
+  });
+});
+
+setInterval(()=>{
+  index++;
+  if(index > 2) index = 0;
+  updateCarousel();
+},4000);
+
+updateCarousel();
+
+/* ===== CART ===== */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function save(){
@@ -339,14 +351,13 @@ function addToCart(name, price){
   let item = cart.find(i => i.name === name);
 
   if(item){
-    item.qty++;
+    item.qty += 1;
   } else {
     cart.push({name, price, qty:1});
   }
 
   save();
   updateCart();
-  showToast("Добавлено в корзину");
 }
 
 function removeItem(index){
@@ -367,7 +378,7 @@ function updateCart(){
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
         <span>${i.price * i.qty} ₽</span>
-        <button onclick="removeItem(${idx})">×</button>
+        <button class="remove" onclick="removeItem(${idx})">×</button>
       </div>
     `;
   });
@@ -375,7 +386,7 @@ function updateCart(){
   document.getElementById("cartItems").innerHTML = html;
 }
 
-/* CART OPEN */
+/* OPEN CART */
 document.getElementById("cartBtn").addEventListener("click",(e)=>{
   e.preventDefault();
   document.getElementById("cartModal").style.display="flex";
@@ -385,15 +396,6 @@ function closeCart(){
   document.getElementById("cartModal").style.display="none";
 }
 
-/* TOAST */
-function showToast(text){
-  const t = document.getElementById("toast");
-  t.innerText = text;
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),1500);
-}
-
-/* INIT */
 updateCart();
 
 </script>
