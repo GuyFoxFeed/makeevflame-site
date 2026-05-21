@@ -9,252 +9,129 @@
 
 <style>
 
+/* RESET */
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-
-background:#e8e8ec;
-font-family:Arial,sans-serif;
-color:White;
-overflow-x:hidden;
+  background:#e8e8ec;
+  font-family:Arial,sans-serif;
+  color:white;
+  overflow-x:hidden;
 }
 
-/* HERO */
-
+/* DESKTOP HERO */
 .hero{
-
-width:100%;
-height:50vh;
-overflow:hidden;
+  width:100%;
+  height:50vh;
+  overflow:hidden;
 }
 
 .hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-width:100%;
-height:100%;
-object-fit:cover;
+/* MOBILE HERO */
+.mobile-hero{
+  display:none;
+  width:100%;
+  height:70vh;
+  background:url("your-image.jpg") center/cover no-repeat;
+  position:relative;
+  color:white;
+}
+
+/* затемнение */
+.mobile-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+}
+
+.mobile-hero__content{
+  position:relative;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:24px;
+  gap:10px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 18px;
+  background:white;
+  color:black;
+  text-decoration:none;
+  border-radius:10px;
+  width:fit-content;
 }
 
 /* CONTENT */
-
 .content{
-
-padding:40px 20px;
-
-display:grid;
-grid-template-columns:1fr;
-gap:24px;
+  padding:40px 20px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:24px;
 }
 
 /* BLOCK */
-
 .block{
-
-background:#131313;
-border-radius:0px;
-padding:24px;
+  background:#131313;
+  border-radius:0px;
+  padding:24px;
 }
 
-/* CAROUSEL */
+/* SWITCH MOBILE / DESKTOP */
+@media (max-width: 768px){
 
-.carousel{
+  .hero{
+    display:none;
+  }
 
-position:relative;
-overflow:hidden;
-border-radius:0px;
-}
-
-.carousel-track{
-
-display:flex;
-transition:0.5s;
-}
-
-.slide{
-
-min-width:100%;
-
-height:700px;
-
-background-size:cover;
-
-background-position:center;
-
-border-radius:0px;
-
-}
-
-/* DOTS */
-
-.dots{
-
-display:flex;
-justify-content:center;
-gap:10px;
-
-margin-top:16px;
-}
-
-.dot{
-
-width:10px;
-height:10px;
-
-border-radius:50%;
-background:#555;
-
-cursor:pointer;
-transition:0.3s;
-}
-
-.dot.active{
-
-background:white;
-transform:scale(1.2);
-}
-
-/* DESKTOP */
-
-@media(min-width:768px){
-
-.content{
-
-grid-template-columns:1.1fr 0.9fr;
-align-items:start;
-
-padding:60px;
-}
-
-.slide{
-
-height:700px;
-}
-
+  .mobile-hero{
+    display:block;
+  }
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- HERO -->
+<!-- DESKTOP HERO -->
+<div class="hero">
+  <img src="your-desktop-image.jpg" alt="MAKEEV candles">
+</div>
 
-<section class="hero">
-
-<img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/ccd219cc44944033c342b2072340db39f4b57850/Desktop%20-%201.svg">
-
-</section>
+<!-- MOBILE HERO -->
+<div class="mobile-hero">
+  <div class="mobile-hero__content">
+    <h1>MAKEEV</h1>
+    <p>Свечи ручной работы</p>
+    <a href="#shop" class="btn">Смотреть</a>
+  </div>
+</div>
 
 <!-- CONTENT -->
+<div class="content">
 
-<section class="content">
+  <div class="block">
+    Блок 1
+  </div>
 
-<!-- CAROUSEL -->
-
-<div class="block">
-
-<div class="carousel">
-
-<div class="carousel-track" id="track">
-
-<div class="slide"
-style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true?q=80&w=1200');">
-</div>
-
-<div class="slide"
-style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true?q=80&w=1200');">
-</div>
-
-<div class="slide"
-style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true?q=80&w=1200');">
-</div>
+  <div class="block">
+    Блок 2
+  </div>
 
 </div>
-
-</div>
-
-<div class="dots">
-
-<div class="dot active"></div>
-<div class="dot"></div>
-<div class="dot"></div>
-
-</div>
-
-</div>
-
-<!-- INFO -->
-
-<div class="block">
-
-<h1 style="margin-bottom:20px;">
-О бренде
-</h1>
-
-<p style="opacity:0.7; line-height:1.7;">
-
-Макеев — это наша фамилия, мы муж и жена.
-В основе бренда лежит то, как из маленькой идеи
-может родиться дело, которое помогает вернуть любовь к жизни. 
- 
-Для нас важны не пафосный “люкс” и типичный хендмейд-уют, а искренность и честность, которую
-мы отражаем в том, что делаем.
-С вниманием, заботой и любовью. 
-
-</p>
-
-</div>
-
-</section>
-
-<script>
-
-const track = document.getElementById('track');
-
-const dots = document.querySelectorAll('.dot');
-
-let index = 0;
-
-function updateCarousel(){
-
-track.style.transform =
-`translateX(-${index * 100}%)`;
-
-dots.forEach(dot=>dot.classList.remove('active'));
-
-dots[index].classList.add('active');
-}
-
-dots.forEach((dot,i)=>{
-
-dot.addEventListener('click',()=>{
-
-index = i;
-
-updateCarousel();
-
-});
-
-});
-
-setInterval(()=>{
-
-index++;
-
-if(index > 2){
-index = 0;
-}
-
-updateCarousel();
-
-},4000);
-
-</script>
 
 </body>
 </html>
