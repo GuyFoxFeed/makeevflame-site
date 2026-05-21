@@ -10,6 +10,7 @@
 <style>
 
 /* RESET */
+
 *{
   margin:0;
   padding:0;
@@ -184,7 +185,6 @@ body{
 
 .footer-content{
   max-width:900px;
-  margin:0;
   display:flex;
   flex-direction:column;
   gap:6px;
@@ -246,7 +246,7 @@ body{
   justify-content:center;
 }
 
-/* CART DRAWER */
+/* CART */
 
 .cart-overlay{
   position:fixed;
@@ -259,12 +259,11 @@ body{
 }
 
 .cart-drawer{
-  width:420px;
+  width:430px;
   max-width:100%;
   height:100%;
   background:#111;
   color:white;
-  padding:20px;
   display:flex;
   flex-direction:column;
   transform:translateX(100%);
@@ -275,55 +274,131 @@ body{
   transform:translateX(0);
 }
 
+/* CART HEADER */
+
 .cart-header{
+  padding:20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:20px;
+  border-bottom:1px solid #222;
 }
 
 .cart-header button{
   background:none;
   border:none;
   color:white;
-  font-size:20px;
+  font-size:22px;
   cursor:pointer;
 }
+
+/* CART ITEMS */
 
 .cart-items{
   flex:1;
   overflow:auto;
+  padding:20px;
 }
 
 .cart-item{
   display:grid;
-  grid-template-columns:1fr auto auto;
-  gap:10px;
+  grid-template-columns:70px 1fr auto;
+  gap:14px;
+  margin-bottom:18px;
   align-items:center;
-  background:#1b1b1b;
-  padding:12px;
-  margin-bottom:10px;
 }
 
-.cart-item button{
-  background:red;
+.cart-item img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.cart-info{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.cart-title{
+  font-size:14px;
+}
+
+.cart-price{
+  opacity:0.7;
+  font-size:13px;
+}
+
+/* QTY */
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.qty-controls button{
+  width:26px;
+  height:26px;
   border:none;
+  background:#222;
   color:white;
-  padding:5px 8px;
   cursor:pointer;
+  border-radius:4px;
+}
+
+.remove-btn{
+  background:none;
+  border:none;
+  color:#888;
+  cursor:pointer;
+  font-size:12px;
+  text-align:left;
+  padding:0;
+}
+
+/* FOOTER CART */
+
+.cart-footer{
+  border-top:1px solid #222;
+  padding:20px;
+  background:#111;
+  position:sticky;
+  bottom:0;
 }
 
 .cart-total{
-  border-top:1px solid #333;
-  padding-top:15px;
-  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:16px;
   font-size:18px;
 }
 
-/* CHECKOUT FORM */
+.checkout-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  background:white;
+  color:black;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.clear-cart{
+  margin-top:10px;
+  width:100%;
+  padding:12px;
+  border:none;
+  background:#1b1b1b;
+  color:white;
+  cursor:pointer;
+}
+
+/* FORM */
 
 .checkout-form{
-  margin-top:20px;
+  margin-top:18px;
   display:flex;
   flex-direction:column;
   gap:10px;
@@ -333,23 +408,6 @@ body{
   padding:12px;
   border:none;
   background:#1b1b1b;
-  color:white;
-}
-
-/* CDEK */
-
-.cdek-box{
-  margin-top:20px;
-  background:#1b1b1b;
-  padding:15px;
-}
-
-.cdek-box input{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  border:none;
-  background:#222;
   color:white;
 }
 
@@ -483,7 +541,11 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 
 <span>1 290 ₽</span>
 
-<button onclick="addToCart('Свеча 1',1290)">
+<button onclick="addToCart(
+'Свеча 1',
+1290,
+'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=1200'
+)">
 Купить
 </button>
 
@@ -499,7 +561,11 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 
 <span>1 490 ₽</span>
 
-<button onclick="addToCart('Свеча 2',1490)">
+<button onclick="addToCart(
+'Свеча 2',
+1490,
+'https://images.unsplash.com/photo-1602526219685-1f3b9b7b9b7b?q=80&w=1200'
+)">
 Купить
 </button>
 
@@ -515,7 +581,11 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 
 <span>1 590 ₽</span>
 
-<button onclick="addToCart('Свеча 3',1590)">
+<button onclick="addToCart(
+'Свеча 3',
+1590,
+'https://images.unsplash.com/photo-1612196808214-b40b3de52c8d?q=80&w=1200'
+)">
 Купить
 </button>
 
@@ -543,7 +613,7 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 
 </footer>
 
-<!-- CART DRAWER -->
+<!-- CART -->
 
 <div id="cartModal" class="cart-overlay">
 
@@ -559,9 +629,23 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 
 <div id="cartItems" class="cart-items"></div>
 
-<div class="cart-total" id="cartTotal">
-Итого: 0 ₽
+<div class="cart-footer">
+
+<div class="cart-total">
+
+<span>Итого</span>
+
+<span id="cartTotal">0 ₽</span>
+
 </div>
+
+<button class="checkout-btn">
+Оформить заказ
+</button>
+
+<button class="clear-cart" onclick="clearCart()">
+Очистить корзину
+</button>
 
 <div class="checkout-form">
 
@@ -574,12 +658,6 @@ style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob
 <input type="text" placeholder="Адрес доставки">
 
 </div>
-
-<div class="cdek-box">
-
-<h4>Доставка СДЭК</h4>
-
-<input type="text" placeholder="Город">
 
 </div>
 
@@ -652,11 +730,12 @@ localStorage.setItem("cart", JSON.stringify(cart));
 
 }
 
-function addToCart(name, price){
+function addToCart(name, price, image){
 
 price = Number(price);
 
-const existing = cart.find(item => item.name === name);
+const existing =
+cart.find(item => item.name === name);
 
 if(existing){
 
@@ -667,6 +746,7 @@ existing.qty += 1;
 cart.push({
 name,
 price,
+image,
 qty:1
 });
 
@@ -681,6 +761,44 @@ updateCart();
 function removeItem(index){
 
 cart.splice(index,1);
+
+saveCart();
+
+updateCart();
+
+}
+
+function increaseQty(index){
+
+cart[index].qty++;
+
+saveCart();
+
+updateCart();
+
+}
+
+function decreaseQty(index){
+
+if(cart[index].qty > 1){
+
+cart[index].qty--;
+
+}else{
+
+cart.splice(index,1);
+
+}
+
+saveCart();
+
+updateCart();
+
+}
+
+function clearCart(){
+
+cart = [];
 
 saveCart();
 
@@ -718,17 +836,44 @@ cartItems.innerHTML += `
 
 <div class="cart-item">
 
-<div>
-${item.name} × ${item.qty}
+<img src="${item.image}">
+
+<div class="cart-info">
+
+<div class="cart-title">
+${item.name}
+</div>
+
+<div class="cart-price">
+${item.price} ₽
+</div>
+
+<div class="qty-controls">
+
+<button onclick="decreaseQty(${index})">
+−
+</button>
+
+<span>${item.qty}</span>
+
+<button onclick="increaseQty(${index})">
++
+</button>
+
+</div>
+
+<button class="remove-btn"
+onclick="removeItem(${index})">
+
+Удалить
+
+</button>
+
 </div>
 
 <div>
 ${item.price * item.qty} ₽
 </div>
-
-<button onclick="removeItem(${index})">
-×
-</button>
 
 </div>
 
@@ -741,7 +886,7 @@ cartCount.innerText = totalQty;
 cartBubble.innerText = totalQty;
 
 cartTotal.innerText =
-"Итого: " + totalPrice + " ₽";
+totalPrice + " ₽";
 
 }
 
