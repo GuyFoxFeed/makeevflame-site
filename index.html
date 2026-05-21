@@ -7,7 +7,6 @@
 
 <style>
 
-/* RESET */
 *{
   margin:0;
   padding:0;
@@ -18,7 +17,6 @@ body{
   background:#e8e8ec;
   font-family:Arial, sans-serif;
   color:#e8e8ec;
-  overflow-x:hidden;
 }
 
 /* NAV */
@@ -34,12 +32,10 @@ body{
 .nav a{
   color:white;
   text-decoration:none;
-  font-size:14px;
 }
 
 /* HERO */
 .hero{
-  width:100%;
   height:50vh;
   overflow:hidden;
 }
@@ -66,12 +62,11 @@ body{
 /* CAROUSEL */
 .carousel{
   overflow:hidden;
-  width:100%;
 }
 
 .carousel-track{
   display:flex;
-  transition:transform 0.5s ease;
+  transition:0.5s;
 }
 
 .slide{
@@ -94,7 +89,6 @@ body{
   height:10px;
   border-radius:50%;
   background:#555;
-  cursor:pointer;
 }
 
 .dot.active{
@@ -103,7 +97,7 @@ body{
 
 /* SHOP */
 .shop{
-  grid-column:1 / -1;
+  grid-column:1/-1;
   padding:60px 20px;
 }
 
@@ -122,32 +116,44 @@ body{
   margin:0 auto;
 }
 
+/* PRODUCT CARD FIXED */
 .product{
   background:#131313;
   color:white;
-  padding:16px;
+  border-radius:12px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:0.2s;
+}
+
+.product:hover{
+  transform:translateY(-3px);
+}
+
+.product img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.product-content{
+  padding:14px;
   display:flex;
   flex-direction:column;
   gap:10px;
 }
 
-/* Shopify feel buttons */
-button{
+.product button{
   padding:10px;
   border:none;
   background:white;
   cursor:pointer;
-  transition:transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  transition:0.2s;
 }
 
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.2);
-}
-
-button:active{
+.product button:active{
   transform:scale(0.96);
-  opacity:0.85;
 }
 
 /* FOOTER */
@@ -158,13 +164,11 @@ button:active{
   text-align:center;
 }
 
-/* ================= CART (SHOPIFY STYLE) ================= */
-
+/* CART */
 .cart-modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(4px);
+  background:rgba(0,0,0,0.5);
   display:none;
   justify-content:flex-end;
   z-index:999;
@@ -175,37 +179,17 @@ button:active{
 }
 
 .cart-content{
-  width:380px;
+  width:360px;
   height:100%;
   background:#111;
   padding:24px;
-  color:white;
-  transform:translateX(100%);
-  animation:slideIn 0.35s ease forwards;
   display:flex;
   flex-direction:column;
-}
-
-@keyframes slideIn{
-  to{transform:translateX(0);}
-}
-
-.cart-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.close-btn{
-  background:none;
-  color:white;
-  font-size:20px;
 }
 
 .cart-items{
   flex:1;
   overflow-y:auto;
-  margin-top:10px;
 }
 
 .cart-item{
@@ -214,19 +198,6 @@ button:active{
   padding:10px;
   background:#1b1b1b;
   margin-bottom:8px;
-  border-radius:8px;
-}
-
-.cart-footer{
-  border-top:1px solid #333;
-  padding-top:10px;
-}
-
-.checkout-btn{
-  width:100%;
-  padding:12px;
-  background:white;
-  color:black;
 }
 
 /* TOAST */
@@ -237,11 +208,10 @@ button:active{
   transform:translateX(-50%);
   background:#111;
   color:white;
-  padding:12px 18px;
+  padding:10px 16px;
   border-radius:10px;
   opacity:0;
   transition:0.3s;
-  pointer-events:none;
 }
 
 .toast.show{
@@ -258,21 +228,12 @@ button:active{
   .shop-grid{
     grid-template-columns:1fr;
   }
-
-  .slide{
-    height:350px;
-  }
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- HERO -->
-<section class="hero">
-  <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
-</section>
 
 <!-- NAV -->
 <nav class="nav">
@@ -281,57 +242,61 @@ button:active{
   <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
 </nav>
 
+<!-- HERO -->
+<section class="hero">
+  <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
+</section>
+
 <!-- CONTENT -->
 <section class="content">
 
-<!-- CAROUSEL -->
 <div class="block">
   <div class="carousel">
     <div class="carousel-track" id="track">
-
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true');"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true');"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true');"></div>
-
+      <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')"></div>
+      <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6')"></div>
+      <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429')"></div>
     </div>
-  </div>
-
-  <div class="dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
   </div>
 </div>
 
-<!-- ABOUT -->
 <div class="block">
   <h2>О бренде</h2>
-  <p>Минималистичные свечи ручной работы.</p>
+  <p>Ручные свечи с атмосферой минимализма.</p>
 </div>
 
 <!-- SHOP -->
 <section class="shop" id="shop">
 
-  <h2 class="shop-title">Магазин</h2>
+<h2 class="shop-title">Магазин</h2>
 
-  <div class="shop-grid">
+<div class="shop-grid">
 
-    <div class="product">
-      <h3>Свеча 1</h3>
-      <button onclick="addToCart('Свеча 1',1290)">Купить</button>
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1602874801006-5c6a3f0c4f13">
+    <div class="product-content">
+      <h3>Свеча Vanilla</h3>
+      <button onclick="addToCart('Vanilla',1290)">Купить</button>
     </div>
-
-    <div class="product">
-      <h3>Свеча 2</h3>
-      <button onclick="addToCart('Свеча 2',1490)">Купить</button>
-    </div>
-
-    <div class="product">
-      <h3>Свеча 3</h3>
-      <button onclick="addToCart('Свеча 3',1590)">Купить</button>
-    </div>
-
   </div>
+
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1616628182506-6c3a0f7c3b8c">
+    <div class="product-content">
+      <h3>Свеча Wood</h3>
+      <button onclick="addToCart('Wood',1490)">Купить</button>
+    </div>
+  </div>
+
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1602526219685-1f3b9b7b9b7b">
+    <div class="product-content">
+      <h3>Свеча Amber</h3>
+      <button onclick="addToCart('Amber',1590)">Купить</button>
+    </div>
+  </div>
+
+</div>
 
 </section>
 
@@ -339,27 +304,23 @@ button:active{
 
 <!-- FOOTER -->
 <footer class="footer">
-  © 2026 MAKEEV
+© 2026 MAKEEV
 </footer>
 
 <!-- CART -->
 <div id="cartModal" class="cart-modal">
 
-  <div class="cart-content">
+<div class="cart-content">
 
-    <div class="cart-header">
-      <h2>Корзина</h2>
-      <button class="close-btn" onclick="closeCart()">✕</button>
-    </div>
+  <h2>Корзина</h2>
 
-    <div id="cartItems" class="cart-items"></div>
+  <div id="cartItems" class="cart-items"></div>
 
-    <div class="cart-footer">
-      <p id="cartTotal"></p>
-      <button class="checkout-btn">Оформить</button>
-    </div>
+  <p id="cartTotal"></p>
 
-  </div>
+  <button onclick="closeCart()">Закрыть</button>
+
+</div>
 
 </div>
 
@@ -373,95 +334,64 @@ const track = document.getElementById('track');
 const dots = document.querySelectorAll('.dot');
 let index = 0;
 
-function updateCarousel(){
-  track.style.transform = `translateX(-${index * 100}%)`;
-  dots.forEach(d=>d.classList.remove('active'));
-  dots[index].classList.add('active');
+function update(){
+  track.style.transform = `translateX(-${index*100}%)`;
 }
-
-dots.forEach((d,i)=>{
-  d.addEventListener('click',()=>{
-    index=i;
-    updateCarousel();
-  });
-});
 
 setInterval(()=>{
   index++;
   if(index>2) index=0;
-  updateCarousel();
-},4000);
+  update();
+},3000);
 
-/* CART */
+/* CART SAFE VERSION */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-function save(){
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
 
 function addToCart(name, price){
 
+  price = Number(price); // 🔥 FIX NaN
+
   let item = cart.find(i=>i.name===name);
 
-  if(item) item.qty++;
-  else cart.push({name,price,qty:1});
+  if(item){
+    item.qty++;
+  } else {
+    cart.push({name, price, qty:1});
+  }
 
-  save();
+  localStorage.setItem("cart", JSON.stringify(cart));
   updateCart();
-  showToast("Добавлено 🕯️");
+  showToast("Добавлено");
 }
 
 function updateCart(){
 
   document.getElementById("cartCount").innerText =
-    cart.reduce((a,b)=>a+b.qty,0);
+    cart.reduce((a,b)=>a + (b.qty || 0), 0);
 
-  let html="";
-  let total=0;
+  let html = "";
+  let total = 0;
 
-  cart.forEach((i,idx)=>{
-    total += i.price*i.qty;
+  cart.forEach(i=>{
+    total += i.price * i.qty;
 
-    html+=`
+    html += `
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
-        <span>${i.price*i.qty} ₽</span>
+        <span>${i.price * i.qty} ₽</span>
       </div>
     `;
   });
 
-  document.getElementById("cartItems").innerHTML=html;
-  document.getElementById("cartTotal").innerText="Итого: "+total+" ₽";
+  document.getElementById("cartItems").innerHTML = html;
+  document.getElementById("cartTotal").innerText = "Итого: " + total + " ₽";
 }
 
-function removeItem(i){
-  cart.splice(i,1);
-  save();
-  updateCart();
-}
-
-/* CART OPEN */
-const cartModal=document.getElementById("cartModal");
-
-document.getElementById("cartBtn").onclick=(e)=>{
-  e.preventDefault();
-  cartModal.classList.add("active");
-};
-
-function closeCart(){
-  cartModal.classList.remove("active");
-}
-
-/* CLICK OUTSIDE */
-cartModal.addEventListener("click",(e)=>{
-  if(e.target===cartModal) closeCart();
-});
-
-/* TOAST */
 function showToast(text){
-  let t=document.getElementById("toast");
-  t.innerText=text;
+  let t = document.getElementById("toast");
+  t.innerText = text;
   t.classList.add("show");
+
   setTimeout(()=>t.classList.remove("show"),1500);
 }
 
