@@ -17,7 +17,6 @@
 body{
   background:#e8e8ec;
   font-family:Arial, sans-serif;
-  color:#e8e8ec;
   overflow-x:hidden;
 }
 
@@ -25,7 +24,6 @@ body{
 .hero{
   width:100%;
   height:50vh;
-  overflow:hidden;
 }
 
 .hero img{
@@ -36,12 +34,11 @@ body{
 
 /* NAV */
 .nav{
-  width:100%;
   background:#131313;
   display:flex;
   justify-content:center;
   gap:20px;
-  padding:16px;
+  padding:15px;
 }
 
 .nav a{
@@ -49,89 +46,137 @@ body{
   text-decoration:none;
 }
 
-/* GRID */
+/* CONTENT GRID (СТАБИЛЬНЫЙ) */
 .content{
   display:grid;
-  grid-template-columns:1.1fr 0.9fr;
+  grid-template-columns:1fr 1fr;
   gap:40px;
   padding:40px;
 }
 
 .block{
   background:#131313;
-  padding:24px;
+  color:white;
+  padding:20px;
 }
 
-/* CAROUSEL */
-.carousel-track{
-  display:flex;
-  transition:transform 0.5s ease;
-}
-
-.slide{
-  min-width:100%;
-  height:500px;
-  background-size:cover;
-  background-position:center;
-}
-
-/* DOTS */
-.dots{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:12px;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#666;
-}
-
-.dot.active{
-  background:white;
-}
-
-/* SHOP */
+/* SHOP (ОТДЕЛЬНО ОТ GRID) */
 .shop{
-  grid-column:1 / -1;
   padding:60px 20px;
 }
 
 .shop-title{
   text-align:center;
-  font-size:28px;
   margin-bottom:30px;
-  color:#131313;
 }
 
 .shop-grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:20px;
 }
 
 .product{
   background:#131313;
-  padding:10px;
-  border-radius:10px;
   color:white;
+  padding:15px;
 }
 
 .product img{
   width:100%;
-  height:200px;
+  height:180px;
   object-fit:cover;
 }
 
 .product button{
   margin-top:10px;
   padding:10px;
-  border:none;
   background:white;
+  border:none;
   cursor:pointer;
+}
+
+/* CART FLOAT */
+.cart-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:55px;
+  height:55px;
+  background:#131313;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  cursor:pointer;
+  z-index:999;
+}
+
+#cartCountNav{
+  font-size:12px;
+  margin-left:5px;
+  color:#aaa;
+}
+
+/* CART DRAWER */
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:flex-end;
+}
+
+.cart-drawer{
+  width:420px;
+  background:#111;
+  color:white;
+  height:100%;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+}
+
+.cart-items{
+  flex:1;
+  overflow:auto;
+  margin-top:10px;
+}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  background:#1b1b1b;
+  margin-bottom:8px;
+}
+
+.cart-total{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #333;
+}
+
+/* CHECKOUT FORM */
+.checkout{
+  margin-top:15px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.checkout input{
+  padding:10px;
+  border:none;
+  outline:none;
+}
+
+/* CDEK */
+.cdek{
+  margin-top:10px;
+  padding:10px;
+  background:#1b1b1b;
 }
 
 /* FOOTER */
@@ -139,166 +184,8 @@ body{
   background:#131313;
   color:white;
   padding:30px;
-}
-
-.footer-content{
-  max-width:900px;
   text-align:left;
   font-size:13px;
-  opacity:0.8;
-}
-
-/* CART DRAWER */
-.cart-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter: blur(6px);
-  display:none;
-  justify-content:flex-end;
-  z-index:9999;
-}
-
-.cart-drawer{
-  width:420px;
-  height:100%;
-  background:#111;
-  color:white;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  transform:translateX(100%);
-  transition:0.35s;
-}
-
-.cart-overlay.active .cart-drawer{
-  transform:translateX(0);
-}
-
-/* CART HEADER */
-.cart-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-/* CART ITEMS */
-.cart-items{
-  flex:1;
-  overflow:auto;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.cart-item{
-  display:grid;
-  grid-template-columns:1fr auto auto;
-  gap:10px;
-  align-items:center;
-  background:#1b1b1b;
-  padding:10px;
-  border-radius:8px;
-  animation:fadeIn 0.25s ease;
-}
-
-.cart-item button{
-  background:red;
-  border:none;
-  color:white;
-  cursor:pointer;
-  padding:5px 8px;
-  border-radius:5px;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(6px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-/* TOTAL */
-.cart-total{
-  margin-top:10px;
-  padding-top:10px;
-  border-top:1px solid #333;
-  font-size:16px;
-}
-
-/* CDEK BLOCK */
-.cdek-box{
-  margin-top:15px;
-  background:#1b1b1b;
-  padding:10px;
-  border-radius:8px;
-}
-
-.cdek-box input{
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-}
-
-/* FLOAT CART */
-.cart-float{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  background:#131313;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  z-index:10000;
-}
-
-.cart-icon{
-  width:18px;
-  height:14px;
-  border:2px solid white;
-  border-radius:3px;
-  position:relative;
-}
-
-.cart-icon::before{
-  content:"";
-  position:absolute;
-  top:-6px;
-  left:2px;
-  width:12px;
-  height:6px;
-  border:2px solid white;
-  border-bottom:none;
-  border-radius:6px 6px 0 0;
-}
-
-#cartBubble{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  background:red;
-  width:20px;
-  height:20px;
-  font-size:12px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  .content{
-    grid-template-columns:1fr;
-  }
-
-  .shop-grid{
-    grid-template-columns:1fr;
-  }
 }
 
 </style>
@@ -308,22 +195,27 @@ body{
 
 <!-- HERO -->
 <section class="hero">
-  <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
+  <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/main/Desktop.svg">
 </section>
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">Корзина</a>
+  <a href="#" id="cartBtn">Корзина <span id="cartCountNav">0</span></a>
 </nav>
 
 <!-- CONTENT -->
 <section class="content">
 
-<div class="block">
-  <h2>О бренде</h2>
-</div>
+  <div class="block">
+    <h2>О бренде</h2>
+    <p>Свечи ручной работы</p>
+  </div>
+
+  <div class="block">
+    <h2>Инфо</h2>
+    <p>Мини бренд-магазин</p>
+  </div>
 
 </section>
 
@@ -346,46 +238,49 @@ body{
     <button onclick="addToCart('Свеча 2',1490)">Купить</button>
   </div>
 
+  <div class="product">
+    <img src="https://images.unsplash.com/photo-1616628182506">
+    <h3>Свеча 3</h3>
+    <button onclick="addToCart('Свеча 3',1590)">Купить</button>
+  </div>
+
 </div>
 
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-content">
-    <p>© 2026 MAKEEV</p>
-  </div>
+  © 2026 MAKEEV — юридическая информация
 </footer>
 
 <!-- CART -->
 <div id="cartModal" class="cart-overlay">
   <div class="cart-drawer">
 
-    <div class="cart-header">
-      <h2>Корзина</h2>
-      <button onclick="closeCart()">✕</button>
-    </div>
+    <h2>Корзина</h2>
 
     <div id="cartItems" class="cart-items"></div>
 
-    <div class="cart-total" id="cartTotal">
-      Итого: 0 ₽
+    <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
+
+    <!-- USER DATA -->
+    <div class="checkout">
+      <input placeholder="Имя">
+      <input placeholder="Телефон">
+      <input placeholder="Email">
+      <input placeholder="Адрес">
     </div>
 
-    <!-- CDEK UI -->
-    <div class="cdek-box">
-      <h4>Доставка СДЭК</h4>
-      <input placeholder="Город доставки">
+    <!-- CDEK -->
+    <div class="cdek">
+      Доставка СДЭК (подключим API позже)
     </div>
 
   </div>
 </div>
 
-<!-- FLOAT CART -->
-<div id="cartFloat" class="cart-float">
-  <div class="cart-icon"></div>
-  <span id="cartBubble">0</span>
-</div>
+<!-- FLOAT -->
+<div class="cart-float" id="cartFloat">🛒</div>
 
 <script>
 
@@ -402,15 +297,9 @@ function addToCart(name, price){
   if(item){
     item.qty++;
   } else {
-    cart.push({name, price:Number(price), qty:1});
+    cart.push({name, price, qty:1});
   }
 
-  save();
-  updateCart();
-}
-
-function removeItem(i){
-  cart.splice(i,1);
   save();
   updateCart();
 }
@@ -420,7 +309,7 @@ function updateCart(){
   let totalQty = cart.reduce((a,b)=>a+b.qty,0);
   let totalPrice = cart.reduce((a,b)=>a+b.qty*b.price,0);
 
-  document.getElementById("cartBubble").innerText = totalQty;
+  document.getElementById("cartCountNav").innerText = totalQty;
 
   let html = "";
 
@@ -429,7 +318,6 @@ function updateCart(){
       <div class="cart-item">
         <span>${i.name} × ${i.qty}</span>
         <span>${i.price * i.qty} ₽</span>
-        <button onclick="removeItem(${idx})">×</button>
       </div>
     `;
   });
@@ -438,24 +326,24 @@ function updateCart(){
   document.getElementById("cartTotal").innerText = "Итого: " + totalPrice + " ₽";
 }
 
-/* CART OPEN */
+/* OPEN */
 function openCart(){
-  const m = document.getElementById("cartModal");
-  m.style.display="flex";
-  setTimeout(()=>m.classList.add("active"),10);
+  document.getElementById("cartModal").style.display="flex";
 }
 
-function closeCart(){
-  const m = document.getElementById("cartModal");
-  m.classList.remove("active");
-  setTimeout(()=>m.style.display="none",300);
-}
+/* CLOSE */
+document.getElementById("cartModal").onclick = (e)=>{
+  if(e.target.id === "cartModal"){
+    document.getElementById("cartModal").style.display="none";
+  }
+};
 
-document.getElementById("cartFloat").onclick = openCart;
 document.getElementById("cartBtn").onclick = (e)=>{
   e.preventDefault();
   openCart();
 };
+
+document.getElementById("cartFloat").onclick = openCart;
 
 updateCart();
 
