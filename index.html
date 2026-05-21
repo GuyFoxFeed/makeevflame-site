@@ -88,10 +88,10 @@ body{
 }
 
 .dot{
-  width:10px;
-  height:10px;
+  width:8px;
+  height:8px;
   border-radius:50%;
-  background:#555;
+  background:#666;
   cursor:pointer;
 }
 
@@ -131,9 +131,10 @@ body{
   object-fit:cover;
 }
 
+/* BUTTON */
 .product button{
-  padding:10px;
   margin-top:10px;
+  padding:10px;
   border:none;
   background:white;
   cursor:pointer;
@@ -201,7 +202,7 @@ body{
   cursor:pointer;
 }
 
-/* FLOAT CART BUTTON */
+/* FLOAT BUTTON */
 .cart-float{
   position:fixed;
   bottom:20px;
@@ -210,19 +211,32 @@ body{
   height:55px;
   border-radius:50%;
   background:#131313;
-  color:white;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
   cursor:pointer;
   box-shadow:0 10px 25px rgba(0,0,0,0.3);
   z-index:1000;
-  transition:0.2s;
 }
 
-.cart-float:hover{
-  transform:scale(1.08);
+.cart-icon{
+  width:18px;
+  height:14px;
+  border:2px solid white;
+  border-radius:3px;
+  position:relative;
+}
+
+.cart-icon::before{
+  content:"";
+  position:absolute;
+  top:-6px;
+  left:2px;
+  width:12px;
+  height:6px;
+  border:2px solid white;
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
 }
 
 #cartBubble{
@@ -269,7 +283,7 @@ body{
 <nav class="nav">
   <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">Корзина</a>
+  <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
 </nav>
 
 <!-- CONTENT -->
@@ -286,6 +300,12 @@ body{
       <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true')"></div>
 
     </div>
+  </div>
+
+  <div class="dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
 
 </div>
@@ -337,7 +357,7 @@ body{
   </div>
 </footer>
 
-<!-- CART MODAL -->
+<!-- CART -->
 <div id="cartModal" class="cart-modal">
   <div class="cart-content">
     <h2>Корзина</h2>
@@ -348,7 +368,7 @@ body{
 
 <!-- FLOAT CART -->
 <div id="cartFloat" class="cart-float">
-  🛒
+  <div class="cart-icon"></div>
   <span id="cartBubble">0</span>
 </div>
 
@@ -362,9 +382,17 @@ let index = 0;
 
 function updateCarousel(){
   track.style.transform = `translateX(-${index * 100}%)`;
+
   dots.forEach(d => d.classList.remove("active"));
   if(dots[index]) dots[index].classList.add("active");
 }
+
+dots.forEach((dot,i)=>{
+  dot.addEventListener("click",()=>{
+    index = i;
+    updateCarousel();
+  });
+});
 
 setInterval(()=>{
   index++;
@@ -406,6 +434,7 @@ function updateCart(){
   let totalQty = cart.reduce((a,b)=>a+b.qty,0);
 
   document.getElementById("cartBubble").innerText = totalQty;
+  document.getElementById("cartCount").innerText = totalQty;
 
   let html = "";
 
@@ -423,12 +452,12 @@ function updateCart(){
 }
 
 /* OPEN CART */
-document.getElementById("cartFloat").addEventListener("click",()=>{
+document.getElementById("cartBtn").addEventListener("click",(e)=>{
+  e.preventDefault();
   document.getElementById("cartModal").style.display="flex";
 });
 
-document.getElementById("cartBtn").addEventListener("click",(e)=>{
-  e.preventDefault();
+document.getElementById("cartFloat").addEventListener("click",()=>{
   document.getElementById("cartModal").style.display="flex";
 });
 
