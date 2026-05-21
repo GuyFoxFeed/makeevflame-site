@@ -23,6 +23,33 @@ color:#e8e8ec;
 overflow-x:hidden;
 }
 
+.nav{
+  width:100%;
+  background:#131313;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:16px 10px;
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:1px;
+}
+
+.nav a:hover{
+  opacity:0.7;
+}
+
+@media (max-width:768px){
+  .nav{
+    flex-wrap:wrap;
+    gap:12px;
+  }
+}
+
 /* HERO */
 
 .hero{
@@ -144,6 +171,14 @@ height:700px;
 <img src="https://raw.githubusercontent.com/GuyFoxFeed/makeevflame-site/46f8f88f27366fa8dee80f06a5ff0aa880d29a0d/Desktop%20-%201.svg">
 
 </section>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <a href="#">Главная</a>
+  <a href="#about">О нас</a>
+  <a href="#shop">Магазин</a>
+  <a href="#contacts">Контакты</a>
+</nav>
 
 <!-- CONTENT -->
 
