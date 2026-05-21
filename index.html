@@ -63,10 +63,6 @@ body{
 }
 
 /* CAROUSEL */
-.carousel{
-  overflow:hidden;
-}
-
 .carousel-track{
   display:flex;
   transition:transform 0.5s ease;
@@ -92,7 +88,6 @@ body{
   height:8px;
   border-radius:50%;
   background:#666;
-  cursor:pointer;
 }
 
 .dot.active{
@@ -120,9 +115,9 @@ body{
 
 .product{
   background:#131313;
-  color:white;
   padding:10px;
   border-radius:10px;
+  color:white;
 }
 
 .product img{
@@ -131,18 +126,12 @@ body{
   object-fit:cover;
 }
 
-/* BUTTON */
 .product button{
   margin-top:10px;
   padding:10px;
   border:none;
   background:white;
   cursor:pointer;
-  transition:0.15s;
-}
-
-.product button:active{
-  transform:scale(0.96);
 }
 
 /* FOOTER */
@@ -154,13 +143,100 @@ body{
 
 .footer-content{
   max-width:900px;
-  margin:0;
   text-align:left;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
   font-size:13px;
   opacity:0.8;
+}
+
+/* CART DRAWER */
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  display:none;
+  justify-content:flex-end;
+  z-index:9999;
+}
+
+.cart-drawer{
+  width:420px;
+  height:100%;
+  background:#111;
+  color:white;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  transform:translateX(100%);
+  transition:0.35s;
+}
+
+.cart-overlay.active .cart-drawer{
+  transform:translateX(0);
+}
+
+/* CART HEADER */
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+/* CART ITEMS */
+.cart-items{
+  flex:1;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.cart-item{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:10px;
+  align-items:center;
+  background:#1b1b1b;
+  padding:10px;
+  border-radius:8px;
+  animation:fadeIn 0.25s ease;
+}
+
+.cart-item button{
+  background:red;
+  border:none;
+  color:white;
+  cursor:pointer;
+  padding:5px 8px;
+  border-radius:5px;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(6px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* TOTAL */
+.cart-total{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #333;
+  font-size:16px;
+}
+
+/* CDEK BLOCK */
+.cdek-box{
+  margin-top:15px;
+  background:#1b1b1b;
+  padding:10px;
+  border-radius:8px;
+}
+
+.cdek-box input{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
 }
 
 /* FLOAT CART */
@@ -176,8 +252,7 @@ body{
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
-  z-index:1000;
+  z-index:10000;
 }
 
 .cart-icon{
@@ -205,7 +280,6 @@ body{
   top:-5px;
   right:-5px;
   background:red;
-  color:white;
   width:20px;
   height:20px;
   font-size:12px;
@@ -213,75 +287,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-}
-
-/* DRAWER OVERLAY */
-.cart-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter: blur(6px);
-  display:none;
-  justify-content:flex-end;
-  z-index:9999;
-}
-
-/* DRAWER */
-.cart-drawer{
-  width:380px;
-  height:100%;
-  background:#111;
   color:white;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  transform:translateX(100%);
-  transition:0.35s ease;
-}
-
-.cart-overlay.active .cart-drawer{
-  transform:translateX(0);
-}
-
-.cart-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.cart-header button{
-  background:none;
-  border:none;
-  color:white;
-  font-size:20px;
-  cursor:pointer;
-}
-
-.cart-items{
-  flex:1;
-  overflow:auto;
-}
-
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  padding:12px;
-  background:#1b1b1b;
-  margin-bottom:10px;
-  animation:fadeIn 0.25s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(6px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-.cart-item button{
-  background:red;
-  color:white;
-  border:none;
-  cursor:pointer;
 }
 
 /* MOBILE */
@@ -292,10 +298,6 @@ body{
 
   .shop-grid{
     grid-template-columns:1fr;
-  }
-
-  .slide{
-    height:350px;
   }
 }
 
@@ -319,32 +321,11 @@ body{
 <!-- CONTENT -->
 <section class="content">
 
-<!-- CAROUSEL -->
-<div class="block">
-
-  <div class="carousel">
-    <div class="carousel-track" id="track">
-
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_5047.jpeg?raw=true')"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4876.jpg?raw=true')"></div>
-      <div class="slide" style="background-image:url('https://github.com/GuyFoxFeed/makeevflame-site/blob/main/IMG_4825.jpeg?raw=true')"></div>
-
-    </div>
-  </div>
-
-  <div class="dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-
-</div>
-
-<!-- ABOUT -->
 <div class="block">
   <h2>О бренде</h2>
-  <p>Свечи ручной работы</p>
 </div>
+
+</section>
 
 <!-- SHOP -->
 <section class="shop" id="shop">
@@ -354,40 +335,29 @@ body{
 <div class="shop-grid">
 
   <div class="product">
-    <img src="https://images.unsplash.com/photo-1602526219685-1f3b9b7b9b7b">
+    <img src="https://images.unsplash.com/photo-1602526219685">
     <h3>Свеча 1</h3>
     <button onclick="addToCart('Свеча 1',1290)">Купить</button>
   </div>
 
   <div class="product">
-    <img src="https://images.unsplash.com/photo-1602874801006-5c6a3f0c4f13">
+    <img src="https://images.unsplash.com/photo-1602874801006">
     <h3>Свеча 2</h3>
     <button onclick="addToCart('Свеча 2',1490)">Купить</button>
-  </div>
-
-  <div class="product">
-    <img src="https://images.unsplash.com/photo-1616628182506-6c3a0f7c3b8c">
-    <h3>Свеча 3</h3>
-    <button onclick="addToCart('Свеча 3',1590)">Купить</button>
   </div>
 
 </div>
 
 </section>
 
-</section>
-
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-content">
-    <p>© 2026 MAKEEV. Все права защищены.</p>
-    <p>НПД: Макеева Екатерина Игоревна</p>
-    <p>ИНН: 631406784709</p>
-    <p>+7 917 159 74 55</p>
+    <p>© 2026 MAKEEV</p>
   </div>
 </footer>
 
-<!-- CART DRAWER -->
+<!-- CART -->
 <div id="cartModal" class="cart-overlay">
   <div class="cart-drawer">
 
@@ -397,6 +367,16 @@ body{
     </div>
 
     <div id="cartItems" class="cart-items"></div>
+
+    <div class="cart-total" id="cartTotal">
+      Итого: 0 ₽
+    </div>
+
+    <!-- CDEK UI -->
+    <div class="cdek-box">
+      <h4>Доставка СДЭК</h4>
+      <input placeholder="Город доставки">
+    </div>
 
   </div>
 </div>
@@ -409,32 +389,6 @@ body{
 
 <script>
 
-/* CAROUSEL */
-const track = document.getElementById("track");
-const dots = document.querySelectorAll(".dot");
-
-let index = 0;
-
-function updateCarousel(){
-  track.style.transform = `translateX(-${index * 100}%)`;
-  dots.forEach(d => d.classList.remove("active"));
-  if(dots[index]) dots[index].classList.add("active");
-}
-
-dots.forEach((dot,i)=>{
-  dot.addEventListener("click",()=>{
-    index = i;
-    updateCarousel();
-  });
-});
-
-setInterval(()=>{
-  index++;
-  if(index > 2) index = 0;
-  updateCarousel();
-},4000);
-
-/* CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function save(){
@@ -464,6 +418,7 @@ function removeItem(i){
 function updateCart(){
 
   let totalQty = cart.reduce((a,b)=>a+b.qty,0);
+  let totalPrice = cart.reduce((a,b)=>a+b.qty*b.price,0);
 
   document.getElementById("cartBubble").innerText = totalQty;
 
@@ -480,32 +435,27 @@ function updateCart(){
   });
 
   document.getElementById("cartItems").innerHTML = html;
+  document.getElementById("cartTotal").innerText = "Итого: " + totalPrice + " ₽";
 }
 
-/* OPEN / CLOSE DRAWER */
+/* CART OPEN */
 function openCart(){
-  const modal = document.getElementById("cartModal");
-  modal.style.display = "flex";
-  setTimeout(()=> modal.classList.add("active"), 10);
+  const m = document.getElementById("cartModal");
+  m.style.display="flex";
+  setTimeout(()=>m.classList.add("active"),10);
 }
 
 function closeCart(){
-  const modal = document.getElementById("cartModal");
-  modal.classList.remove("active");
-  setTimeout(()=> modal.style.display = "none", 300);
+  const m = document.getElementById("cartModal");
+  m.classList.remove("active");
+  setTimeout(()=>m.style.display="none",300);
 }
 
-/* EVENTS */
-document.getElementById("cartFloat").addEventListener("click", openCart);
-
-document.getElementById("cartBtn").addEventListener("click",(e)=>{
+document.getElementById("cartFloat").onclick = openCart;
+document.getElementById("cartBtn").onclick = (e)=>{
   e.preventDefault();
   openCart();
-});
-
-document.getElementById("cartModal").addEventListener("click",(e)=>{
-  if(e.target.id === "cartModal") closeCart();
-});
+};
 
 updateCart();
 
