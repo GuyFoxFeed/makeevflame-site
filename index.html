@@ -5,133 +5,250 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MAKEEV свечи ручной работы</title>
+<title>MAKEEVFLAME</title>
 
 <style>
 
-/* RESET */
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-  background:#e8e8ec;
-  font-family:Arial,sans-serif;
-  color:white;
-  overflow-x:hidden;
+
+background:#0f0f0f;
+font-family:Arial,sans-serif;
+color:white;
+overflow-x:hidden;
 }
 
-/* DESKTOP HERO */
+/* HERO */
+
 .hero{
-  width:100%;
-  height:50vh;
-  overflow:hidden;
+
+width:100%;
+height:90vh;
+overflow:hidden;
 }
 
 .hero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
 
-/* MOBILE HERO */
-.mobile-hero{
-  display:none;
-  width:100%;
-  height:70vh;
-  background:url("your-image.jpg") center/cover no-repeat;
-  position:relative;
-  color:white;
-}
-
-/* затемнение */
-.mobile-hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.45);
-}
-
-.mobile-hero__content{
-  position:relative;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:24px;
-  gap:10px;
-}
-
-.btn{
-  display:inline-block;
-  padding:12px 18px;
-  background:white;
-  color:black;
-  text-decoration:none;
-  border-radius:10px;
-  width:fit-content;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
 /* CONTENT */
+
 .content{
-  padding:40px 20px;
-  display:grid;
-  grid-template-columns:1fr;
-  gap:24px;
+
+padding:40px 20px;
+
+display:grid;
+grid-template-columns:1fr;
+gap:24px;
 }
 
 /* BLOCK */
+
 .block{
-  background:#131313;
-  border-radius:0px;
-  padding:24px;
+
+background:#181818;
+border-radius:28px;
+padding:24px;
 }
 
-/* SWITCH MOBILE / DESKTOP */
-@media (max-width: 768px){
+/* CAROUSEL */
 
-  .hero{
-    display:none;
-  }
+.carousel{
 
-  .mobile-hero{
-    display:block;
-  }
+position:relative;
+overflow:hidden;
+border-radius:24px;
+}
+
+.carousel-track{
+
+display:flex;
+transition:0.5s;
+}
+
+.slide{
+
+min-width:100%;
+height:500px;
+
+background-size:cover;
+background-position:center;
+}
+
+/* DOTS */
+
+.dots{
+
+display:flex;
+justify-content:center;
+gap:10px;
+
+margin-top:16px;
+}
+
+.dot{
+
+width:10px;
+height:10px;
+
+border-radius:50%;
+background:#555;
+
+cursor:pointer;
+transition:0.3s;
+}
+
+.dot.active{
+
+background:white;
+transform:scale(1.2);
+}
+
+/* DESKTOP */
+
+@media(min-width:1024px){
+
+.content{
+
+grid-template-columns:1.1fr 0.9fr;
+align-items:start;
+
+padding:60px;
+}
+
+.slide{
+
+height:700px;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- DESKTOP HERO -->
-<div class="hero">
-  <img src="your-desktop-image.jpg" alt="MAKEEV candles">
-</div>
+<!-- HERO -->
 
-<!-- MOBILE HERO -->
-<div class="mobile-hero">
-  <div class="mobile-hero__content">
-    <h1>MAKEEV</h1>
-    <p>Свечи ручной работы</p>
-    <a href="#shop" class="btn">Смотреть</a>
-  </div>
-</div>
+<section class="hero">
+
+<img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=2000&auto=format&fit=crop">
+
+</section>
 
 <!-- CONTENT -->
-<div class="content">
 
-  <div class="block">
-    Блок 1
-  </div>
+<section class="content">
 
-  <div class="block">
-    Блок 2
-  </div>
+<!-- CAROUSEL -->
+
+<div class="block">
+
+<div class="carousel">
+
+<div class="carousel-track" id="track">
+
+<div class="slide"
+style="background-image:url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200');">
+</div>
+
+<div class="slide"
+style="background-image:url('https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200');">
+</div>
+
+<div class="slide"
+style="background-image:url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200');">
+</div>
 
 </div>
+
+</div>
+
+<div class="dots">
+
+<div class="dot active"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+
+</div>
+
+</div>
+
+<!-- INFO -->
+
+<div class="block">
+
+<h1 style="margin-bottom:20px;">
+MAKEEVFLAME
+</h1>
+
+<p style="opacity:0.7; line-height:1.7;">
+
+Premium streetwear concept.
+
+Custom storefront in development.
+
+Desktop adaptation, custom cart,
+SDEK integration and immersive UX.
+
+</p>
+
+</div>
+
+</section>
+
+<script>
+
+const track = document.getElementById('track');
+
+const dots = document.querySelectorAll('.dot');
+
+let index = 0;
+
+function updateCarousel(){
+
+track.style.transform =
+`translateX(-${index * 100}%)`;
+
+dots.forEach(dot=>dot.classList.remove('active'));
+
+dots[index].classList.add('active');
+}
+
+dots.forEach((dot,i)=>{
+
+dot.addEventListener('click',()=>{
+
+index = i;
+
+updateCarousel();
+
+});
+
+});
+
+setInterval(()=>{
+
+index++;
+
+if(index > 2){
+index = 0;
+}
+
+updateCarousel();
+
+},4000);
+
+</script>
 
 </body>
 </html>
