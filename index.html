@@ -142,7 +142,7 @@ body{
 }
 
 .product button:active{
-  transform:scale(0.95);
+  transform:scale(0.96);
 }
 
 /* FOOTER */
@@ -163,46 +163,7 @@ body{
   opacity:0.8;
 }
 
-/* CART MODAL */
-.cart-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:flex-end;
-  z-index:999;
-}
-
-.cart-content{
-  width:380px;
-  height:100%;
-  background:#111;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-}
-
-.cart-items{
-  flex:1;
-  overflow:auto;
-}
-
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  padding:10px;
-  background:#1b1b1b;
-  margin-bottom:8px;
-}
-
-.cart-item button{
-  background:red;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-
-/* FLOAT BUTTON */
+/* FLOAT CART */
 .cart-float{
   position:fixed;
   bottom:20px;
@@ -254,6 +215,75 @@ body{
   justify-content:center;
 }
 
+/* DRAWER OVERLAY */
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  display:none;
+  justify-content:flex-end;
+  z-index:9999;
+}
+
+/* DRAWER */
+.cart-drawer{
+  width:380px;
+  height:100%;
+  background:#111;
+  color:white;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  transform:translateX(100%);
+  transition:0.35s ease;
+}
+
+.cart-overlay.active .cart-drawer{
+  transform:translateX(0);
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.cart-header button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.cart-items{
+  flex:1;
+  overflow:auto;
+}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  padding:12px;
+  background:#1b1b1b;
+  margin-bottom:10px;
+  animation:fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(6px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.cart-item button{
+  background:red;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
 /* MOBILE */
 @media(max-width:768px){
   .content{
@@ -283,7 +313,7 @@ body{
 <nav class="nav">
   <a href="#">Главная</a>
   <a href="#shop">Магазин</a>
-  <a href="#" id="cartBtn">Корзина (<span id="cartCount">0</span>)</a>
+  <a href="#" id="cartBtn">Корзина</a>
 </nav>
 
 <!-- CONTENT -->
@@ -357,12 +387,17 @@ body{
   </div>
 </footer>
 
-<!-- CART -->
-<div id="cartModal" class="cart-modal">
-  <div class="cart-content">
-    <h2>Корзина</h2>
+<!-- CART DRAWER -->
+<div id="cartModal" class="cart-overlay">
+  <div class="cart-drawer">
+
+    <div class="cart-header">
+      <h2>Корзина</h2>
+      <button onclick="closeCart()">✕</button>
+    </div>
+
     <div id="cartItems" class="cart-items"></div>
-    <button onclick="closeCart()">Закрыть</button>
+
   </div>
 </div>
 
@@ -382,7 +417,6 @@ let index = 0;
 
 function updateCarousel(){
   track.style.transform = `translateX(-${index * 100}%)`;
-
   dots.forEach(d => d.classList.remove("active"));
   if(dots[index]) dots[index].classList.add("active");
 }
@@ -409,14 +443,12 @@ function save(){
 
 function addToCart(name, price){
 
-  price = Number(price);
-
   let item = cart.find(i => i.name === name);
 
   if(item){
     item.qty++;
   } else {
-    cart.push({name, price, qty:1});
+    cart.push({name, price:Number(price), qty:1});
   }
 
   save();
@@ -434,7 +466,6 @@ function updateCart(){
   let totalQty = cart.reduce((a,b)=>a+b.qty,0);
 
   document.getElementById("cartBubble").innerText = totalQty;
-  document.getElementById("cartCount").innerText = totalQty;
 
   let html = "";
 
@@ -451,19 +482,30 @@ function updateCart(){
   document.getElementById("cartItems").innerHTML = html;
 }
 
-/* OPEN CART */
-document.getElementById("cartBtn").addEventListener("click",(e)=>{
-  e.preventDefault();
-  document.getElementById("cartModal").style.display="flex";
-});
-
-document.getElementById("cartFloat").addEventListener("click",()=>{
-  document.getElementById("cartModal").style.display="flex";
-});
+/* OPEN / CLOSE DRAWER */
+function openCart(){
+  const modal = document.getElementById("cartModal");
+  modal.style.display = "flex";
+  setTimeout(()=> modal.classList.add("active"), 10);
+}
 
 function closeCart(){
-  document.getElementById("cartModal").style.display="none";
+  const modal = document.getElementById("cartModal");
+  modal.classList.remove("active");
+  setTimeout(()=> modal.style.display = "none", 300);
 }
+
+/* EVENTS */
+document.getElementById("cartFloat").addEventListener("click", openCart);
+
+document.getElementById("cartBtn").addEventListener("click",(e)=>{
+  e.preventDefault();
+  openCart();
+});
+
+document.getElementById("cartModal").addEventListener("click",(e)=>{
+  if(e.target.id === "cartModal") closeCart();
+});
 
 updateCart();
 
